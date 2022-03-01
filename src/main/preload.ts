@@ -1,5 +1,6 @@
-const {contextBridge, ipcRenderer} = require('electron');
+// const {contextBridge, ipcRenderer} = require('electron');
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld('electron', {
+contextBridge.exposeInMainWorld("electron", {
   ipcRenderer: ipcRenderer,
-})
+});
