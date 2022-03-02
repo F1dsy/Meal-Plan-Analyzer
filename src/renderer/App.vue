@@ -1,21 +1,19 @@
 <template>
-  <div id="app">
-    <hello></hello>
-  </div>
+  <div id="app"><meal-table /></div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Hello from './components/Hello.vue'
-import { ipcRenderer } from './electron'
+import { defineComponent } from "vue";
+import MealTable from "./components/MealTable.vue";
+import { ipcRenderer } from "./electron";
 
 export default defineComponent({
-  name: 'app',
+  name: "app",
   components: {
-    Hello,
+    MealTable,
   },
   setup() {
-    ipcRenderer.send('message', 'Hello from App.vue!');
+    ipcRenderer.send("message", "Hello from App.vue!");
   },
-})
+});
 </script>

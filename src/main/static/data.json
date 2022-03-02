@@ -1,0 +1,63 @@
+{
+  "table": [
+    ["Burritos", "Banana Bread", "Teriyaki Chicken", "Sandwich", "Dinner Mon"],
+    ["Egg Bread", "Nuts & Apple", "Burrito", "Snack 2 Tue", "Dinner Tue"],
+    ["Eggs & Nutella Toast", "Carrot Salad", "Pizza", "Snack 2", "Dinner wed"],
+    ["Eggs & Nutella Toast", "Carrot Salad", "Pizza", "snack", "Dinner thu"],
+    ["Eggs & Nutella Toast", "Carrot Salad", "Pizza", "Snack 4", "Dinner fri"],
+    [
+      "Eggs & Nutella Toast",
+      "Carrot Salad",
+      {
+        "content": "Pizza",
+        "vAlign": "center",
+        "rowSpan": 2
+      },
+      "Dinner sat"
+    ],
+    ["Eggs & Nutella Toast", "Carrot Salad", "Pizza", "Snack 6", "Dinner sun"]
+  ],
+  "meals": [
+    {
+      "name": "Burritos",
+      "carbs": 45,
+      "fat": 4,
+      "protein": 12
+    },
+    {
+      "name": "Banana Bread",
+      "calories": 356,
+      "carbs": 45
+    },
+    {
+      "name": "Teriyaki Chicken",
+      "calories": 356,
+      "carbs": 45
+    },
+    {
+      "name": "Sandwich",
+      "calories": 356
+    },
+    {
+      "name": "Dinner Mon",
+      "calories": 356
+    },
+    {
+      "name": "Egg Bread",
+      "calories": 560
+    },
+    {
+      "name": "Carrot Salad",
+      "calories": 160
+    },
+    {
+      "name": "Dinner",
+      "calories": 1460
+    },
+    {
+      "name": "Pizza",
+      "calories": 890
+    }
+  ],
+  "foods": []
+}

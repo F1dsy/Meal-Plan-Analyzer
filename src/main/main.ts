@@ -1,7 +1,7 @@
-// const {app, BrowserWindow, ipcMain} = require('electron')
-// const Path = require('path')
 import { app, BrowserWindow, ipcMain } from "electron";
 import Path from "path";
+
+import getData from "./loadFile";
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -9,8 +9,7 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: Path.join(__dirname, "preload.js"),
-      nodeIntegration: false,
-      contextIsolation: true,
+      nodeIntegration: true,
     },
   });
 
@@ -20,6 +19,7 @@ function createWindow() {
   } else {
     mainWindow.loadFile(Path.join(app.getAppPath(), "renderer", "index.html"));
   }
+  mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {
@@ -41,3 +41,9 @@ app.on("window-all-closed", function () {
 ipcMain.on("message", (event, message) => {
   console.log(message);
 });
+
+ipcMain.handleOnce("data", async (event) => {
+  return getData();
+});
+
+// console.log(getData());
