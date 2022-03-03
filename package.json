@@ -1,7 +1,7 @@
 {
-  "name": "electron-vue-template",
+  "name": "meal-plan-analyzer",
   "version": "0.1.0",
-  "description": "A minimal Electron + Vue application",
+  "description": "A minimal meal plan analyzer",
   "main": "build/main/main.js",
   "scripts": {
     "dev": "node scripts/dev-server.js",
@@ -12,7 +12,7 @@
   },
   "repository": "https://github.com/deluze/electron-vue-template",
   "author": {
-    "name": "Deluze",
+    "name": "Fidsy",
     "url": "https://github.com/Deluze"
   },
   "devDependencies": {
