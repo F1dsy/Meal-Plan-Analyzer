@@ -10,10 +10,10 @@
     "build:mac": "node scripts/build.js && electron-builder -c config/electron-builder.json --mac",
     "build:linux": "node scripts/build.js && electron-builder -c config/electron-builder.json --linux"
   },
-  "repository": "https://github.com/deluze/electron-vue-template",
+  "repository": "https://github.com/F1dsy/Meal-Plan-Analyzer",
   "author": {
-    "name": "Fidsy",
-    "url": "https://github.com/Deluze"
+    "name": "F1dsy",
+    "url": "https://github.com/F1dsy"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",
