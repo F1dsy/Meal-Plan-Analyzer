@@ -15,33 +15,19 @@
 </template>
 
 <script lang="ts">
-// import { ipcRenderer } from "../electron";
+import { defineComponent } from "vue";
 import invertTable from "../helpers/InvertTable";
 import { Table, Data } from "../typings/types";
-import loadData from "../helpers/loadData";
 
-export default {
-  data() {
-    return {
-      data: null,
-    };
-  },
-  mounted() {
-    // ipcRenderer.invoke("data").then((result: Data) => {
-    //   this.data = result;
-    // });
-    loadData.then((result) => {
-      console.log(result);
-      this.data = result;
-    });
-  },
+export default defineComponent({
+  props: ["data"],
   computed: {
     tableData() {
       const tableData: Table = this.data.table;
       return invertTable(tableData);
     },
   },
-};
+});
 </script>
 
 <style scoped>

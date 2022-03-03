@@ -1,9 +1,9 @@
 import { Meal, TableItem, TableDay } from "../typings/types";
 import gramsToCalories from "./CaloriesConversion.js";
-import loadData from "./loadData";
 
 export function getMealData(
-  name: string | { content: string }
+  name: string | { content: string },
+  data
 ): Meal | undefined {
   let mealData: Meal | undefined;
   if (typeof name === "object") {
@@ -13,10 +13,10 @@ export function getMealData(
   }
 }
 
-export function getDaysCalories(day: Array<string | TableItem>) {
+export function getDaysCalories(day: Array<string | TableItem>, meals) {
   let totalCalories = 0;
   for (const meal of day) {
-    const mealData = getMealData(meal);
+    const mealData = getMealData(meal, meals);
     if (!mealData) continue;
     if (
       !mealData.calories &&
@@ -34,28 +34,28 @@ export function getDaysCalories(day: Array<string | TableItem>) {
   }
   return totalCalories;
 }
-export function getDaysCarbs(day: Array<string | TableItem>) {
+export function getDaysCarbs(day: Array<string | TableItem>, meals) {
   let totalCalories = 0;
   for (const meal of day) {
-    const mealData = getMealData(meal);
+    const mealData = getMealData(meal, meals);
     if (!mealData || !mealData.carbs) continue;
     totalCalories += mealData.carbs;
   }
   return totalCalories;
 }
-export function getDaysProtein(day: Array<string | TableItem>) {
+export function getDaysProtein(day: Array<string | TableItem>, meals) {
   let totalCalories = 0;
   for (const meal of day) {
-    const mealData = getMealData(meal);
+    const mealData = getMealData(meal, meals);
     if (!mealData || !mealData.protein) continue;
     totalCalories += mealData.protein;
   }
   return totalCalories;
 }
-export function getDaysFats(day: Array<string | TableItem>) {
+export function getDaysFats(day: Array<string | TableItem>, meals) {
   let totalCalories = 0;
   for (const meal of day) {
-    const mealData = getMealData(meal);
+    const mealData = getMealData(meal, meals);
     if (!mealData || !mealData.fat) continue;
     totalCalories += mealData.fat;
   }
