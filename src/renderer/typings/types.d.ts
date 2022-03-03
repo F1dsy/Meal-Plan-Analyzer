@@ -20,3 +20,10 @@ export interface Data {
   table: Table;
   meals: Array<Meal>;
 }
+
+export interface Config {
+  calories: number;
+  carbs: number;
+  fats: number;
+  protein: number;
+}

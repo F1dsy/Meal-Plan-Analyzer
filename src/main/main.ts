@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import Path from "path";
 
-import getData from "./loadFile";
+import { getData, getConfig } from "./loadFile";
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -38,12 +38,9 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.on("message", (event, message) => {
-  console.log(message);
-});
-
 ipcMain.handleOnce("data", async (event) => {
   return getData();
 });
-
-// console.log(getData());
+ipcMain.handleOnce("config", async (event) => {
+  return getConfig();
+});

@@ -1,6 +1,15 @@
 <template>
   <div class="table" v-if="data != null">
     <table>
+      <tr>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
+      </tr>
       <tr v-for="row in tableData" :key="row">
         <td
           v-for="cell in row"
@@ -15,47 +24,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import invertTable from "../helpers/InvertTable";
 import { Table, Data } from "../typings/types";
 
 export default defineComponent({
-  props: ["data"],
+  props: {
+    data: { type: Object as PropType<Data>, required: true },
+  },
   computed: {
     tableData() {
       const tableData: Table = this.data.table;
+
       return invertTable(tableData);
     },
   },
 });
 </script>
 
-<style scoped>
-#hello {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
+<style scoped lang="scss"></style>
