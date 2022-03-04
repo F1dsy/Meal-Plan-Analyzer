@@ -10,6 +10,7 @@ function createWindow() {
     webPreferences: {
       preload: Path.join(__dirname, "preload.js"),
       nodeIntegration: true,
+      devTools: true,
     },
   });
 
@@ -20,7 +21,7 @@ function createWindow() {
     mainWindow.loadFile(Path.join(app.getAppPath(), "renderer", "index.html"));
   }
   mainWindow.webContents.openDevTools();
-  mainWindow.removeMenu();
+  // mainWindow.removeMenu();
 }
 
 app.whenReady().then(() => {

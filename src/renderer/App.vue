@@ -17,12 +17,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "./public/style-reset.css";
-
+@import "./styles/style-reset.css";
+@import "./styles/global-styles.scss";
 #app {
   display: flex;
   width: 100%;
   font-family: "Roboto", sans-serif;
-  padding: 20px;
 }
 </style>

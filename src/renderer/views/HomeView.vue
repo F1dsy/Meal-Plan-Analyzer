@@ -1,6 +1,6 @@
 <template>
   <div class="view-container" v-if="data != null && config != null">
-    <h1>{{ $route.name }}</h1>
+    <h1 class="title">{{ $route.name }}</h1>
     <meal-table :data="data" />
     <calorie-table :data="data" :config="config" />
   </div>
@@ -34,9 +34,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .view-container {
   flex-grow: 1;
-  padding: 5px;
-  h1 {
-    font-size: 2em;
-  }
+  padding: 16px;
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div class="view-container">
-    <h1>{{ $route.name }}</h1>
+    <div class="view-header">
+      <h1 class="title">{{ $route.name }}</h1>
+      <router-link class="button" to="/meallist/addNewMeal">New</router-link>
+    </div>
     <div class="list-container" v-if="data != null">
       <div class="header">
         <h6>Name</h6>
@@ -18,6 +21,7 @@
       </div>
     </div>
   </div>
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
@@ -42,44 +46,63 @@ export default defineComponent({
 <style scoped lang="scss">
 .view-container {
   flex-grow: 1;
-  padding: 5px;
-  h1 {
-    font-size: 2em;
+  padding: 16px;
+  .view-header {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    align-items: flex-start;
+    .button {
+      color: white;
+      text-decoration: none;
+      background-color: rgb(76, 128, 76);
+      border-radius: 8px;
+      width: 60px;
+      text-align: center;
+      padding: 10px 0;
+    }
   }
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 5px;
-  position: relative;
-  h6 {
+  .list-container {
     width: 100%;
-    font-weight: bold;
-  }
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 0.5px;
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-}
-.list-item {
-  display: flex;
-  justify-content: space-between;
-
-  border-radius: 5px;
-  padding: 5px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  h6,
-  p {
-    width: 100%;
-    padding: 10px 0;
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 10px;
+      position: relative;
+      h6 {
+        font-weight: bold;
+        flex: 1 1 0;
+        &:first-child {
+          flex-grow: 2;
+        }
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0.5px;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      border-radius: 5px;
+      padding: 10px;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+      h6,
+      p {
+        padding: 10px 0;
+        flex: 1 1 0;
+      }
+      h6 {
+        flex-grow: 2;
+      }
+    }
   }
 }
 </style>

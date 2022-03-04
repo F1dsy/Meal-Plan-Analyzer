@@ -43,5 +43,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "../public/table-style.scss";
+@import "../styles/table-style.scss";
 </style>

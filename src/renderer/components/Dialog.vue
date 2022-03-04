@@ -1,8 +1,7 @@
 <template>
   <div class="dialog-background">
-    <div class="dialog-container">
-     
-      <span class="close" @click="$emit('close')">&#215</span>
+    <div class="dialog-container" :style="styles">
+      <span class="close" @click="$router.back()">&#215</span>
       <slot />
     </div>
   </div>
@@ -11,7 +10,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-
+  props: {
+    styles: String
+  }
 }); 
 </script>
 
@@ -26,17 +27,18 @@ export default defineComponent({
   background-color: rgba(0, 0, 0, 0.25);
   .dialog-container {
     background-color: whitesmoke;
-    border-radius: 15px;
-    width: 100%;
-    height: 100%;
-    padding: 25px;
     position: relative;
-  
-    span.close{
-        font-size: 2em;
-        position: absolute;
-        right: 14px;
-        top: 10px;
+    border-radius: 15px;
+    margin: auto;
+    // width: 100%;
+    // height: 100%;
+    padding: 25px;
+
+    span.close {
+      font-size: 2em;
+      position: absolute;
+      right: 14px;
+      top: 10px;
     }
   }
 }
