@@ -20,6 +20,7 @@ function createWindow() {
     mainWindow.loadFile(Path.join(app.getAppPath(), "renderer", "index.html"));
   }
   mainWindow.webContents.openDevTools();
+  mainWindow.removeMenu();
 }
 
 app.whenReady().then(() => {
@@ -38,9 +39,9 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.handleOnce("data", async (event) => {
+ipcMain.handle("data", async (event) => {
   return getData();
 });
-ipcMain.handleOnce("config", async (event) => {
+ipcMain.handle("config", async (event) => {
   return getConfig();
 });

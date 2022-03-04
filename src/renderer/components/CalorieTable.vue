@@ -74,4 +74,6 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+@import "../public/table-style.scss";
+</style>
