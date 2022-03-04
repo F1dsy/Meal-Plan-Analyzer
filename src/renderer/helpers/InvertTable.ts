@@ -2,7 +2,13 @@ import { Table } from "../typings/types";
 
 export default function invertTable(array: Table) {
   let newArray: Array<any> = [];
-  for (let i = 0; i < array[0].length; i++) {
+  let indexOfLongest = 0;
+  array.forEach((e, i) => {
+    if (e.length > array[indexOfLongest].length) {
+      indexOfLongest = i;
+    }
+  });
+  for (let i = 0; i < array[indexOfLongest].length; i++) {
     newArray.push([]);
   }
   array.forEach((e, i) => {

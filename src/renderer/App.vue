@@ -17,6 +17,7 @@
         <h1>Foods</h1></Dialog
       >
     </div>
+    <router-view></router-view>
   </div>
 </template>
 

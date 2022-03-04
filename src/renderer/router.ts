@@ -1,4 +1,4 @@
-import VueRouter from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import App from "./App.vue";
 import MealListView from "./views/MealListView.vue";
@@ -8,7 +8,7 @@ const routes = [
   { path: "/meallist", component: MealListView },
 ];
 
-export default VueRouter.createRouter({
-  history: VueRouter.createWebHashHistory(),
+export default createRouter({
+  history: createWebHashHistory(),
   routes,
 });
