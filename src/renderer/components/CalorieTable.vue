@@ -1,5 +1,5 @@
 <template>
-  <div class="table" v-if="data != null">
+  <div class="table">
     <table>
       <tr>
         <th>Monday</th>
@@ -51,24 +51,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 import getDaysSummary from "../helpers/GetDaysData";
-import { Data, Config } from "../typings/types";
-export default defineComponent({
-  props: {
-    data: {
-      type: Object as PropType<Data>,
-      required: true,
-    },
-    config: {
-      type: Object as PropType<Config>,
-      required: true,
-    },
-  },
 
+export default defineComponent({
   computed: {
     summaryData: function () {
-      return getDaysSummary(this.data);
+      return getDaysSummary(this.$store.state.data);
+    },
+    config() {
+      return this.$store.state.config;
     },
   },
 });

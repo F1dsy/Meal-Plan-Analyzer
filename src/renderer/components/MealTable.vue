@@ -1,5 +1,5 @@
 <template>
-  <div class="table" v-if="data != null">
+  <div class="table">
     <table>
       <tr>
         <th>Monday</th>
@@ -24,19 +24,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent } from "vue";
 import invertTable from "../helpers/InvertTable";
-import { Table, Data } from "../typings/types";
 
 export default defineComponent({
-  props: {
-    data: { type: Object as PropType<Data>, required: true },
-  },
   computed: {
     tableData() {
-      const tableData: Table = this.data.table;
-
-      return invertTable(tableData);
+      return invertTable(this.$store.state.data.table);
     },
   },
 });

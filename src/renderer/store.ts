@@ -1,15 +1,17 @@
 import { createStore } from "vuex";
+import { ipcRenderer } from "./electron";
 export default createStore({
   state: {
     data: {
       table: [],
       meals: [],
-      foods: [],
     },
+    config: {},
   },
-  getters: {
-    doneTodos(state) {
-      return state.todos.filter((todo) => todo.done);
+  actions: {
+    async init(context) {
+      context.state.data = await ipcRenderer.invoke("data");
+      context.state.config = await ipcRenderer.invoke("config");
     },
   },
 });

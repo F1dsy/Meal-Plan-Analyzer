@@ -26,19 +26,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ipcRenderer } from "../electron";
-import { Config, Data } from "../typings/types";
 
 export default defineComponent({
-  data(): { data: Data | null; config: Config | null } {
-    return {
-      data: null,
-      config: null,
-    };
-  },
-  async created() {
-    this.data = await ipcRenderer.invoke("data");
-    this.config = await ipcRenderer.invoke("config");
+  computed: {
+    data() {
+      return this.$store.state.data;
+    },
   },
 });
 </script>
