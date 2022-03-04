@@ -13,6 +13,9 @@ export default defineComponent({
   components: {
     SideMenu,
   },
+  created() {
+    this.$store.dispatch("init");
+  },
 });
 </script>
 

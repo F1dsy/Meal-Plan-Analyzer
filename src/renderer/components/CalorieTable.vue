@@ -1,5 +1,5 @@
 <template>
-  <div class="table">
+  <div class="table" v-if="$store.state.hasLoaded">
     <table>
       <tr>
         <th>Monday</th>
@@ -60,7 +60,7 @@ export default defineComponent({
       return getDaysSummary(this.$store.state.data);
     },
     config() {
-      return this.$store.state.config;
+      return this.$store.state.config!;
     },
   },
 });

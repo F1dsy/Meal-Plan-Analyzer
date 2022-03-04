@@ -1,5 +1,5 @@
 <template>
-  <div class="view-container">
+  <div class="view-container" v-if="$store.state.hasLoaded">
     <div class="view-header">
       <h1 class="title">{{ $route.name }}</h1>
       <router-link class="button" to="/meallist/addNewMeal">New</router-link>
