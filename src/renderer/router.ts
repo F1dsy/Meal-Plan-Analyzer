@@ -4,6 +4,7 @@ import HomeView from "./views/HomeView.vue";
 import MealListView from "./views/MealListView.vue";
 import FoodListView from "./views/FoodListView.vue";
 import AddNewMealDialog from "./views/AddNewMealDialog.vue";
+import AddNewFoodDialog from "./views/AddNewFoodDialog.vue";
 
 const routes = [
   { name: "Meal Plan", path: "/", component: HomeView },
@@ -13,7 +14,7 @@ const routes = [
     component: MealListView,
     children: [
       {
-        Name: "Add New Meal",
+        name: "Add New Meal",
         path: "addNewMeal",
         component: AddNewMealDialog,
       },
@@ -23,6 +24,13 @@ const routes = [
     name: "Food List",
     path: "/foodlist",
     component: FoodListView,
+    children: [
+      {
+        name: "Add New Food",
+        path: "addNewFood",
+        component: AddNewFoodDialog,
+      },
+    ],
   },
 ];
 

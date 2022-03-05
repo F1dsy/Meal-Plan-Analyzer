@@ -37,7 +37,7 @@
           </span>
         </div>
       </div>
-      <div class="list-item" v-for="item in mealsSorted(sortBy)">
+      <div class="list-item" v-for="item in mealsSorted()">
         <h6>{{ item.name }}</h6>
         <p>{{ item.calories }}</p>
         <p>{{ item.carbs }}</p>
@@ -67,11 +67,6 @@ export default defineComponent({
       sortBy: 0,
     };
   },
-  computed: {
-    meals() {
-      return this.$store.state.data.meals;
-    },
-  },
   methods: {
     selectSort(sortBy: number) {
       if (this.sortBy === sortBy) {
@@ -81,9 +76,9 @@ export default defineComponent({
         this.sortBy = sortBy;
       }
     },
-    mealsSorted(sortBy: Number) {
+    mealsSorted() {
       return this.$store.state.data.meals.sort((a, b) => {
-        switch (sortBy) {
+        switch (this.sortBy) {
           case SortBy.calories:
             return this.ascending
               ? a.calories - b.calories

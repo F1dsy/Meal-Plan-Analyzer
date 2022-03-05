@@ -9,8 +9,18 @@ export default createStore<State>({
     data: {
       table: [],
       meals: [],
+      foods: [],
     },
     config: null,
+  },
+  getters: {
+    foodCategories(state) {
+      let set = new Set();
+      state.data.foods.forEach((e) => {
+        set.add(e.category);
+      });
+      return set.values;
+    },
   },
   mutations: {
     addNewMeal(state, payload) {

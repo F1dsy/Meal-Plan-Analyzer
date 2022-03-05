@@ -1,12 +1,62 @@
 <template>
   <div class="view-container" v-if="$store.state.hasLoaded">
     <div class="view-header">
-      <h1 class="title">Meal List</h1>
-      <router-link class="button" to="/meallist/addNewMeal">New</router-link>
+      <h1 class="title">Food List</h1>
+      <router-link class="button" to="/foodlist/addNewFood">New</router-link>
     </div>
     <div class="list-container">
-      <div class="list-item" v-for="item in foods">
-        <h6>{{ item }}</h6>
+      <div class="header">
+        <div class="header-item" @click="selectSort(0)">
+          <h6>Name</h6>
+          <span class="material-icons-round" v-if="sortBy === 0"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(1)">
+          <h6>Calories</h6>
+          <span class="material-icons-round" v-if="sortBy === 1"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(2)">
+          <h6>Carbs</h6>
+          <span class="material-icons-round" v-if="sortBy === 2"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(3)">
+          <h6>Fats</h6>
+          <span class="material-icons-round" v-if="sortBy === 3"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(4)">
+          <h6>Protein</h6>
+          <span class="material-icons-round" v-if="sortBy === 4"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(5)">
+          <h6>Unit Scale</h6>
+          <span class="material-icons-round" v-if="sortBy === 5"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(6)">
+          <h6>Category</h6>
+          <span class="material-icons-round" v-if="sortBy === 6"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+      </div>
+      <div class="list-item" v-for="item in foodsSorted()">
+        <h6>{{ item.name }}</h6>
+        <p>{{ item.calories }}</p>
+        <p>{{ item.carbs }}</p>
+        <p>{{ item.fats }}</p>
+        <p>{{ item.protein }}</p>
+        <p>{{ item.unitScale }}</p>
+        <p>{{ item.category }}</p>
       </div>
     </div>
   </div>
@@ -22,6 +72,8 @@ enum SortBy {
   carbs,
   fats,
   protein,
+  unitScale,
+  category,
 }
 
 export default defineComponent({
@@ -31,9 +83,41 @@ export default defineComponent({
       sortBy: 0,
     };
   },
-  computed: {
-    foods() {
-      return this.$store.state.data.foods;
+
+  methods: {
+    selectSort(sortBy: number) {
+      if (this.sortBy === sortBy) {
+        this.ascending = !this.ascending;
+      } else {
+        this.ascending = true;
+        this.sortBy = sortBy;
+      }
+    },
+    foodsSorted() {
+      return this.$store.state.data.foods.sort((a, b) => {
+        switch (this.sortBy) {
+          case SortBy.calories:
+            return this.ascending
+              ? a.calories - b.calories
+              : b.calories - a.calories;
+          case SortBy.carbs:
+            return this.ascending ? a.carbs - b.carbs : b.carbs - a.carbs;
+          case SortBy.fats:
+            return this.ascending ? a.fats - b.fats : b.fats - a.fats;
+          case SortBy.protein:
+            return this.ascending
+              ? a.protein - b.protein
+              : b.protein - a.protein;
+          default:
+            return this.ascending
+              ? a.name > b.name
+                ? 1
+                : -1
+              : b.name > a.name
+              ? 1
+              : -1;
+        }
+      });
     },
   },
 });
@@ -60,7 +144,7 @@ export default defineComponent({
   }
   .list-container {
     width: 100%;
-    min-width: 450px;
+    min-width: 680px;
     .header {
       display: flex;
       justify-content: space-between;

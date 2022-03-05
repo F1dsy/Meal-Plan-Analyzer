@@ -1,6 +1,15 @@
-export type Table = Array<TableDay>;
+export interface Data {
+  table: Table;
+  meals: Array<Meal>;
+  foods: Array<Food>;
+}
 
-export type TableDay = Array<string | TableItem>;
+export interface Config {
+  calories: number;
+  carbs: number;
+  fats: number;
+  protein: number;
+}
 
 export interface Meal {
   name: string;
@@ -10,21 +19,22 @@ export interface Meal {
   protein: number;
 }
 
+export interface Food {
+  name: string;
+  calories: number;
+  carbs: number;
+  fats: number;
+  protein: number;
+  unitScale: string;
+  category: string;
+}
+
 export interface TableItem {
   content: string;
   rowSpan: number;
   vAlign: string;
 }
 
-export interface Data {
-  table: Table;
-  meals: Array<Meal>;
-  foods: Array<any>;
-}
+export type Table = Array<TableDay>;
 
-export interface Config {
-  calories: number;
-  carbs: number;
-  fats: number;
-  protein: number;
-}
+export type TableDay = Array<string | TableItem>;
