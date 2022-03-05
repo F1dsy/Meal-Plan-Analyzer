@@ -2,8 +2,6 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import Path from "path";
 import Store from "./fileStore";
 
-import { getData, getConfig } from "./loadFile";
-
 function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -52,5 +50,5 @@ ipcMain.handle("config", (event) => {
 
 ipcMain.on("addNewMeal", (event, args) => {
   store.data.meals.push(args);
-  store.writeData();
+  store.writeMealData();
 });

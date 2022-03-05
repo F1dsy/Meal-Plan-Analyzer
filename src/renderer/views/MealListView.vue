@@ -132,6 +132,7 @@ export default defineComponent({
   }
   .list-container {
     width: 100%;
+    min-width: 450px;
     .header {
       display: flex;
       justify-content: space-between;

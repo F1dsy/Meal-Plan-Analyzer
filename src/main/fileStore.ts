@@ -11,9 +11,9 @@ export default class Store {
     this.config = this.readConfig();
   }
   readData(): Data {
-    const tablePath = Path.join(app.getAppPath(), "static", "data.json");
+    const tablePath = Path.join(app.getAppPath(), "static", "table.json");
     const mealsPath = Path.join(app.getAppPath(), "static", "meals.json");
-    const foodsPath = Path.join(app.getAppPath(), "static", "meals.json");
+    const foodsPath = Path.join(app.getAppPath(), "static", "foods.json");
     const mealsData = JSON.parse(
       fs.readFileSync(mealsPath, { encoding: "utf8" })
     );
@@ -34,9 +34,9 @@ export default class Store {
     const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
     return data;
   }
-  writeData() {
-    const path = Path.join(app.getAppPath(), "static", "data.json");
-    fs.writeFileSync(path, JSON.stringify(this.data));
+  writeMealData() {
+    const path = Path.join(app.getAppPath(), "static", "meals.json");
+    fs.writeFileSync(path, JSON.stringify(this.data.meals));
   }
   writeConfig() {
     const path = Path.join(app.getAppPath(), "static", "config.json");
