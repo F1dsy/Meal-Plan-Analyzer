@@ -6,6 +6,9 @@
       <router-link class="router-link" to="/meallist"
         ><h3>Meal List</h3></router-link
       >
+      <router-link class="router-link" to="/foodlist"
+        ><h3>Food List</h3></router-link
+      >
       <!-- <router-link to="/foodlist">Food List</router-link> -->
     </div>
   </div>

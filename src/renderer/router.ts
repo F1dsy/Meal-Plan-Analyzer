@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 import HomeView from "./views/HomeView.vue";
 import MealListView from "./views/MealListView.vue";
+import FoodListView from "./views/FoodListView.vue";
 import AddNewMealDialog from "./views/AddNewMealDialog.vue";
 
 const routes = [
@@ -17,6 +18,11 @@ const routes = [
         component: AddNewMealDialog,
       },
     ],
+  },
+  {
+    name: "Food List",
+    path: "/foodlist",
+    component: FoodListView,
   },
 ];
 

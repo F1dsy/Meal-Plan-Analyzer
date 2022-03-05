@@ -2,6 +2,8 @@ export type Table = Array<TableDay>;
 
 export type TableDay = Array<string | TableItem>;
 
+export type Food = string;
+
 export interface Meal {
   name: string;
   calories: number;
@@ -19,6 +21,7 @@ export interface TableItem {
 export interface Data {
   table: Table;
   meals: Array<Meal>;
+  foods: Array<Food>;
 }
 
 export interface Config {
