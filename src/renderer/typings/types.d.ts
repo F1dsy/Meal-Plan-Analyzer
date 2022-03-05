@@ -4,10 +4,10 @@ export type TableDay = Array<string | TableItem>;
 
 export interface Meal {
   name: string;
-  calories?: number;
-  carbs?: number;
-  fats?: number;
-  protein?: number;
+  calories: number;
+  carbs: number;
+  fats: number;
+  protein: number;
 }
 
 export interface TableItem {

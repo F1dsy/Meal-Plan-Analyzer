@@ -6,13 +6,38 @@
     </div>
     <div class="list-container">
       <div class="header">
-        <h6>Name</h6>
-        <h6>Calories</h6>
-        <h6>Carbs</h6>
-        <h6>Fats</h6>
-        <h6>Protein</h6>
+        <div class="header-item" @click="selectSort(0)">
+          <h6>Name</h6>
+          <span class="material-icons-round" v-if="sortBy === 0"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(1)">
+          <h6>Calories</h6>
+          <span class="material-icons-round" v-if="sortBy === 1"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(2)">
+          <h6>Carbs</h6>
+          <span class="material-icons-round" v-if="sortBy === 2"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(3)">
+          <h6>Fats</h6>
+          <span class="material-icons-round" v-if="sortBy === 3"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
+        <div class="header-item" @click="selectSort(4)">
+          <h6>Protein</h6>
+          <span class="material-icons-round" v-if="sortBy === 4"
+            >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
+          </span>
+        </div>
       </div>
-      <div class="list-item" v-for="item in data.meals">
+      <div class="list-item" v-for="item in mealsSorted(sortBy)">
         <h6>{{ item.name }}</h6>
         <p>{{ item.calories }}</p>
         <p>{{ item.carbs }}</p>
@@ -27,10 +52,60 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+enum SortBy {
+  name,
+  calories,
+  carbs,
+  fats,
+  protein,
+}
+
 export default defineComponent({
+  data() {
+    return {
+      ascending: true,
+      sortBy: 0,
+    };
+  },
   computed: {
-    data() {
-      return this.$store.state.data;
+    meals() {
+      return this.$store.state.data.meals;
+    },
+  },
+  methods: {
+    selectSort(sortBy: number) {
+      if (this.sortBy === sortBy) {
+        this.ascending = !this.ascending;
+      } else {
+        this.ascending = true;
+        this.sortBy = sortBy;
+      }
+    },
+    mealsSorted(sortBy: Number) {
+      return this.$store.state.data.meals.sort((a, b) => {
+        switch (sortBy) {
+          case SortBy.calories:
+            return this.ascending
+              ? a.calories - b.calories
+              : b.calories - a.calories;
+          case SortBy.carbs:
+            return this.ascending ? a.carbs - b.carbs : b.carbs - a.carbs;
+          case SortBy.fats:
+            return this.ascending ? a.fats - b.fats : b.fats - a.fats;
+          case SortBy.protein:
+            return this.ascending
+              ? a.protein - b.protein
+              : b.protein - a.protein;
+          default:
+            return this.ascending
+              ? a.name > b.name
+                ? 1
+                : -1
+              : b.name > a.name
+              ? 1
+              : -1;
+        }
+      });
     },
   },
 });
@@ -60,11 +135,15 @@ export default defineComponent({
     .header {
       display: flex;
       justify-content: space-between;
+      // align-items: center;
       padding: 12px 10px;
       position: relative;
-      h6 {
+      .header-item {
         font-weight: bold;
         flex: 1 1 0;
+        display: flex;
+        align-items: center;
+        height: 24px;
         &:first-child {
           flex-grow: 2;
         }
