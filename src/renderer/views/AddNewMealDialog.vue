@@ -31,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     createMeal() {
-      this.$store.commit("addNewMeal", {
+      this.$store.dispatch("addNewMeal", {
         name: this.name,
         calories: this.calories,
         carbs: this.carbs,

@@ -21,6 +21,10 @@ export default createStore<State>({
     },
   },
   actions: {
+    addNewMeal(context, payload) {
+      ipcRenderer.send("addNewMeal", payload);
+      context.commit("addNewMeal", payload);
+    },
     init(context) {
       Promise.all([
         ipcRenderer.invoke("data").then((result) => {

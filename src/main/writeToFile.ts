@@ -7,8 +7,9 @@ export function getData(): Object {
   const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
   return data;
 }
-export function getConfig(): Object {
-  const path = Path.join(app.getAppPath(), "static", "config.json");
-  const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
-  return data;
-}
+
+// function writeNewMeal() {
+//     const path = Path.join(app.getAppPath(), "static", "data.json");
+//     fs.
+
+// }

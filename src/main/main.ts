@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import Path from "path";
+import Store from "./fileStore";
 
 import { getData, getConfig } from "./loadFile";
 
@@ -40,9 +41,16 @@ app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
-ipcMain.handle("data", async (event) => {
-  return getData();
+const store = new Store();
+
+ipcMain.handle("data", (event) => {
+  return store.data;
 });
-ipcMain.handle("config", async (event) => {
-  return getConfig();
+ipcMain.handle("config", (event) => {
+  return store.config;
+});
+
+ipcMain.on("addNewMeal", (event, args) => {
+  store.data.meals.push(args);
+  store.writeData();
 });

@@ -1,0 +1,45 @@
+import { app } from "electron";
+import fs from "fs";
+import Path from "path";
+import { Config, Data } from "./types";
+
+export default class Store {
+  data: Data;
+  config: Config;
+  constructor() {
+    this.data = this.readData();
+    this.config = this.readConfig();
+  }
+  readData(): Data {
+    const tablePath = Path.join(app.getAppPath(), "static", "data.json");
+    const mealsPath = Path.join(app.getAppPath(), "static", "meals.json");
+    const foodsPath = Path.join(app.getAppPath(), "static", "meals.json");
+    const mealsData = JSON.parse(
+      fs.readFileSync(mealsPath, { encoding: "utf8" })
+    );
+    const foodsData = JSON.parse(
+      fs.readFileSync(foodsPath, { encoding: "utf8" })
+    );
+    const tableData = JSON.parse(
+      fs.readFileSync(tablePath, { encoding: "utf8" })
+    );
+    return {
+      table: tableData,
+      meals: mealsData,
+      foods: foodsData,
+    };
+  }
+  readConfig(): Config {
+    const path = Path.join(app.getAppPath(), "static", "config.json");
+    const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
+    return data;
+  }
+  writeData() {
+    const path = Path.join(app.getAppPath(), "static", "data.json");
+    fs.writeFileSync(path, JSON.stringify(this.data));
+  }
+  writeConfig() {
+    const path = Path.join(app.getAppPath(), "static", "config.json");
+    fs.writeFileSync(path, JSON.stringify(this.data));
+  }
+}
