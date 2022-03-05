@@ -1,14 +1,15 @@
 <template>
   <Dialog :styles="styles">
-    <h1 class="title">Hii</h1>
-    <div class="input-container">
-      <input type="text" name="title" id="name" />
-      <input type="number" name="calories" id="name" />
-      <input type="number" name="carbs" id="name" />
-      <input type="number" name="fats" id="name" />
-      <input type="number" name="protein" id="name" />
-    </div>
-    <button>Create</button>
+    <h1 class="title">Add New Meal</h1>
+
+    <form @submit.prevent="createMeal()" class="input-container">
+      <input type="text" name="title" id="name" v-model="name" />
+      <input type="number" name="calories" id="name" v-model="calories" />
+      <input type="number" name="carbs" id="name" v-model="carbs" />
+      <input type="number" name="fats" id="name" v-model="fats" />
+      <input type="number" name="protein" id="name" v-model="protein" />
+      <input type="submit" value="Create" />
+    </form>
   </Dialog>
 </template>
 
@@ -21,7 +22,24 @@ export default defineComponent({
   data() {
     return {
       styles: `width: 500px;`,
+      name: null,
+      calories: null,
+      carbs: null,
+      fats: null,
+      protein: null,
     };
+  },
+  methods: {
+    createMeal() {
+      this.$store.commit("addNewMeal", {
+        name: this.name,
+        calories: this.calories,
+        carbs: this.carbs,
+        fats: this.fats,
+        protein: this.protein,
+      });
+      this.$router.back();
+    },
   },
 });
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="view-container">
-    <h1 class="title">{{ $route.name }}</h1>
+    <h1 class="title">Meal Plan</h1>
     <meal-table />
     <calorie-table />
   </div>

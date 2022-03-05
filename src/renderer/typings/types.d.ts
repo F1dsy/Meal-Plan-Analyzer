@@ -6,7 +6,7 @@ export interface Meal {
   name: string;
   calories?: number;
   carbs?: number;
-  fat?: number;
+  fats?: number;
   protein?: number;
 }
 

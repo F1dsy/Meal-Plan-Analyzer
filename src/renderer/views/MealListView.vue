@@ -1,10 +1,10 @@
 <template>
   <div class="view-container" v-if="$store.state.hasLoaded">
     <div class="view-header">
-      <h1 class="title">{{ $route.name }}</h1>
+      <h1 class="title">Meal List</h1>
       <router-link class="button" to="/meallist/addNewMeal">New</router-link>
     </div>
-    <div class="list-container" v-if="data != null">
+    <div class="list-container">
       <div class="header">
         <h6>Name</h6>
         <h6>Calories</h6>
@@ -16,7 +16,7 @@
         <h6>{{ item.name }}</h6>
         <p>{{ item.calories }}</p>
         <p>{{ item.carbs }}</p>
-        <p>{{ item.fat }}</p>
+        <p>{{ item.fats }}</p>
         <p>{{ item.protein }}</p>
       </div>
     </div>
@@ -44,7 +44,7 @@ export default defineComponent({
     display: flex;
     justify-content: space-between;
     height: 40px;
-    align-items: flex-start;
+    align-items: center;
     .button {
       color: white;
       text-decoration: none;
