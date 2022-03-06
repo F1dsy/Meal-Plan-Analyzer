@@ -8,7 +8,6 @@ function createWindow() {
     height: 600,
     webPreferences: {
       preload: Path.join(__dirname, "preload.js"),
-      nodeIntegration: true,
       devTools: true,
     },
   });
@@ -41,10 +40,10 @@ app.on("window-all-closed", function () {
 
 const store = new Store();
 
-ipcMain.handle("data", (event) => {
+ipcMain.handleOnce("data", (event) => {
   return store.data;
 });
-ipcMain.handle("config", (event) => {
+ipcMain.handleOnce("config", (event) => {
   return store.config;
 });
 

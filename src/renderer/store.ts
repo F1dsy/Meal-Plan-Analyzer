@@ -29,10 +29,17 @@ export default createStore<State>({
     removeMeal(state, meal) {
       state.data.meals.splice(state.data.meals.indexOf(meal), 1);
     },
+    addNewFood(state, food) {
+      state.data.foods.push(food);
+    },
   },
   actions: {
     addNewMeal(context, payload) {
       ipcRenderer.send("addNewMeal", payload);
+      context.commit("addNewMeal", payload);
+    },
+    addNewFood(context, payload) {
+      ipcRenderer.send("addNewFood", payload);
       context.commit("addNewMeal", payload);
     },
     init(context) {
@@ -46,9 +53,6 @@ export default createStore<State>({
       ]).then(() => {
         context.state.hasLoaded = true;
       });
-      // setTimeout(() => {
-      //   context.state.hasLoaded = true;
-      // }, 1000);
     },
   },
 });

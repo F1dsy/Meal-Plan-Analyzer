@@ -9,16 +9,22 @@
       <router-link class="router-link" to="/foodlist"
         ><h3>Food List</h3></router-link
       >
-      <!-- <router-link to="/foodlist">Food List</router-link> -->
     </div>
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({});
+</script>
+
 <style lang="scss" scoped>
 .menu-container {
-  position: relative;
+  position: sticky;
+  top: 0;
+  left: 0;
   display: flex;
-  align-items: center;
   flex-direction: column;
   flex: 0 0 300px;
   align-items: stretch;

@@ -23,15 +23,15 @@
       </label>
       <label for="carbs" class="name">Carbs:</label>
       <label for="carbs" class="unit">
-        <input type="number" name="carbs" id="carbs" v-model="carbs" /><span>{{
-          unitScale
-        }}</span>
+        <input type="number" name="carbs" id="carbs" v-model="carbs" /><span
+          >g</span
+        >
       </label>
       <label for="fats" class="name">Fats:</label>
       <label for="fats" class="unit">
-        <input type="number" name="fats" id="fats" v-model="fats" /><span>{{
-          unitScale
-        }}</span>
+        <input type="number" name="fats" id="fats" v-model="fats" /><span
+          >g</span
+        >
       </label>
       <label for="protein" class="name">Protein:</label>
       <label for="protein" class="unit">
@@ -40,7 +40,7 @@
           name="protein"
           id="protein"
           v-model="protein"
-        /><span>{{ unitScale }}</span>
+        /><span>g</span>
       </label>
       <label for="unitScale" class="name">Unit Scale:</label>
       <label for="unitScale" class="unit">
@@ -55,11 +55,22 @@
           </option>
         </select>
       </label>
+      <label for="category" class="name">Category:</label>
+      <label for="category" class="unit">
+        <input
+          type="text"
+          name=""
+          id="category"
+          class="no-border"
+          v-model="category"
+        />
+      </label>
     </div>
     <div class="buttons">
       <button @click="$router.back()" class="cancel">Cancel</button>
-      <button @click="createMeal()" class="submit">Create</button>
+      <button @click="createFood()" class="submit">Create</button>
     </div>
+    <span v-if="missingField">There is a field missing.</span>
   </Dialog>
 </template>
 
@@ -72,12 +83,14 @@ export default defineComponent({
   data() {
     return {
       styles: `width: 500px;`,
+      missingField: false,
       name: null,
       calories: null,
       carbs: null,
       fats: null,
       protein: null,
       unitScale: this.$store.state.config!.unitScales[0],
+      category: null,
     };
   },
   computed: {
@@ -86,13 +99,29 @@ export default defineComponent({
     },
   },
   methods: {
-    createMeal() {
-      this.$store.dispatch("addNewMeal", {
+    createFood() {
+      if (
+        !(
+          this.name ||
+          this.calories ||
+          this.carbs ||
+          this.fats ||
+          this.protein ||
+          this.unitScale ||
+          this.category
+        )
+      ) {
+        this.missingField = true;
+        return;
+      }
+      this.$store.dispatch("addNewFood", {
         name: this.name,
         calories: this.calories,
         carbs: this.carbs,
         fats: this.fats,
         protein: this.protein,
+        unitScale: this.unitScale,
+        category: this.category,
       });
       this.$router.back();
     },
