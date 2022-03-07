@@ -2,7 +2,9 @@
   <div class="menu-container">
     <h1 class="title">Meal Plan Analyzer</h1>
     <div class="selection">
-      <router-link class="router-link" to="/"><h3>Meal Plan</h3></router-link>
+      <router-link class="router-link" to="/tables"
+        ><h3>Meal Plan</h3></router-link
+      >
       <router-link class="router-link" to="/meallist"
         ><h3>Meal List</h3></router-link
       >

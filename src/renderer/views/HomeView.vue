@@ -1,9 +1,13 @@
 <template>
   <div class="view-container">
-    <h1 class="title">Meal Plan</h1>
+    <div class="view-header">
+      <h1 class="title">Meal Plan</h1>
+      <router-link class="button" to="/tables/addNewMealPlan">New</router-link>
+    </div>
     <meal-table />
     <calorie-table />
   </div>
+  <router-view></router-view>
 </template>
 
 <script lang="ts">
@@ -24,5 +28,20 @@ export default defineComponent({
 .view-container {
   flex-grow: 1;
   padding: 16px;
+}
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+  align-items: center;
+}
+.button {
+  color: white;
+  text-decoration: none;
+  background-color: rgb(76, 128, 76);
+  border-radius: 8px;
+  width: 60px;
+  text-align: center;
+  padding: 10px 0;
 }
 </style>
