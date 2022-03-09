@@ -9,6 +9,7 @@ export interface Config {
   carbs: number;
   fats: number;
   protein: number;
+  UIDIndex: number;
 }
 
 export interface Meal {

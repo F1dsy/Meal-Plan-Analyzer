@@ -1,18 +1,27 @@
 import { app } from "electron";
 import fs from "fs";
 import Path from "path";
-import { Config, Data } from "./types";
+import { Config, Data, Food, Meal } from "./types";
 
 export default class Store {
   data: Data;
   config: Config;
+  // genUID: Generator<number, void, unknown>;
   constructor() {
     this.data = this.readData();
     this.config = this.readConfig();
+    // this.genUID = this.generateUID(this.config.UIDIndex);
   }
   getPath(string: string) {
     return Path.join(app.getAppPath(), "static", string);
   }
+  // *generateUID(start: number) {
+  //   let index = start;
+  //   while (true) {
+  //     yield index++;
+  //   }
+  // }
+
   readData(): Data {
     const tablePath = this.getPath("table.json");
     const mealsPath = this.getPath("meals.json");
@@ -32,17 +41,18 @@ export default class Store {
       foods: foodsData,
     };
   }
+
   readConfig(): Config {
     const path = this.getPath("config.json");
     const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
     return data;
   }
-  writeMealData(data) {
+  writeMealData(data: Meal) {
     this.data.meals.push(data);
     const path = this.getPath("meals.json");
     fs.writeFileSync(path, JSON.stringify(this.data.meals));
   }
-  writeFoodData(data) {
+  writeFoodData(data: Food) {
     this.data.foods.push(data);
     const path = this.getPath("foods.json");
     fs.writeFileSync(path, JSON.stringify(this.data.foods));

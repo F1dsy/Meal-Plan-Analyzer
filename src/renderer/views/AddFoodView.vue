@@ -82,7 +82,7 @@ export default defineComponent({
   components: { Dialog },
   data() {
     return {
-      styles: `width: 500px;`,
+      styles: `width: 900px;`,
       missingField: false,
       name: null,
       calories: null,
