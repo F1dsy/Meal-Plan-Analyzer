@@ -48,6 +48,8 @@ ipcMain.handleOnce("config", (event) => {
 });
 
 ipcMain.on("addNewMeal", (event, args) => {
-  store.data.meals.push(args);
-  store.writeMealData();
+  store.writeMealData(args);
+});
+ipcMain.on("addNewFood", (event, args) => {
+  store.writeFoodData(args);
 });

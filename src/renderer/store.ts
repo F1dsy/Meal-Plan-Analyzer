@@ -21,6 +21,9 @@ export default createStore<State>({
       });
       return set.values;
     },
+    getFoodByName: (state) => (name: string) => {
+      return state.data.foods.find((e) => e.name == name);
+    },
   },
   mutations: {
     addNewMeal(state, payload) {
@@ -40,7 +43,7 @@ export default createStore<State>({
     },
     addNewFood(context, payload) {
       ipcRenderer.send("addNewFood", payload);
-      context.commit("addNewMeal", payload);
+      context.commit("addNewFood", payload);
     },
     init(context) {
       Promise.all([

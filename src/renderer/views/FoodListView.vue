@@ -50,7 +50,11 @@
             </span>
           </div>
         </div>
-        <div class="list-item" v-for="item in foodsSorted(ascending, sortBy)">
+        <div
+          class="list-item"
+          v-for="item in foodsSorted(ascending, sortBy)"
+          @click="$router.push(`/foodlist/show/${item.name}`)"
+        >
           <h6>{{ item.name }}</h6>
           <p>{{ item.calories }}</p>
           <p>{{ item.carbs }}</p>
@@ -91,7 +95,7 @@ export default defineComponent({
       if (this.sortBy === sortBy) {
         this.ascending = !this.ascending;
       } else {
-        if (this.ascending) this.ascending = true;
+        this.ascending = true;
         this.sortBy = sortBy;
       }
     },

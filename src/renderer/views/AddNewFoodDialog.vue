@@ -102,28 +102,29 @@ export default defineComponent({
     createFood() {
       if (
         !(
-          this.name ||
-          this.calories ||
-          this.carbs ||
-          this.fats ||
-          this.protein ||
-          this.unitScale ||
+          this.name &&
+          this.calories &&
+          this.carbs &&
+          this.fats &&
+          this.protein &&
+          this.unitScale &&
           this.category
         )
       ) {
         this.missingField = true;
         return;
+      } else {
+        this.$store.dispatch("addNewFood", {
+          name: this.name,
+          calories: this.calories,
+          carbs: this.carbs,
+          fats: this.fats,
+          protein: this.protein,
+          unitScale: this.unitScale,
+          category: this.category,
+        });
+        this.$router.back();
       }
-      this.$store.dispatch("addNewFood", {
-        name: this.name,
-        calories: this.calories,
-        carbs: this.carbs,
-        fats: this.fats,
-        protein: this.protein,
-        unitScale: this.unitScale,
-        category: this.category,
-      });
-      this.$router.back();
     },
   },
 });
