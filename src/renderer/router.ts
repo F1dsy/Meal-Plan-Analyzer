@@ -33,7 +33,7 @@ const routes = [
       },
       {
         name: "Show Meal",
-        path: "show/:name",
+        path: "show/:mealname",
         component: AddMealViewVue,
         props: true,
       },
@@ -51,7 +51,7 @@ const routes = [
       },
       {
         name: "Show Food",
-        path: "show/:name",
+        path: "show/:foodname",
         component: FoodViewVue,
         props: true,
       },

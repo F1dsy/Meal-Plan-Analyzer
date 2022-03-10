@@ -135,6 +135,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: flex-start;
   width: 300px;
+  padding-bottom: 40px;
   label.name {
     color: rgba(0, 0, 0, 0.75);
     margin-top: 10px;
@@ -145,9 +146,6 @@ export default defineComponent({
     span {
       padding: 0 5px;
       color: rgba(0, 0, 0, 0.85);
-    }
-    &:last-of-type {
-      margin-bottom: 40px;
     }
   }
   input,

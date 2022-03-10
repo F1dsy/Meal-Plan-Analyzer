@@ -24,6 +24,7 @@
           id="carbs"
           v-model="food.carbs"
           class="border"
+          @change="onChange"
         /><span>g</span>
       </div>
       <label for="fats" class="name">Fats:</label>
@@ -58,6 +59,10 @@
       <div class="unit">
         <input type="text" name="" id="category" v-model="food.category" />
       </div>
+      <div v-if="hasChanged" class="buttons">
+        <button @click="$router.back()" class="cancel">Cancel</button>
+        <button class="submit" @click="saveChanges">Save</button>
+      </div>
     </div>
   </dialog-vue>
 </template>
@@ -71,29 +76,43 @@ export default defineComponent({
   components: {
     DialogVue,
   },
+
   data() {
     return {
       styles: "width: 500px;",
-      food: null,
+      hasChanged: false,
+      food: { ...this.$store.getters.getFoodByName(this.foodname) },
     };
   },
   props: ["foodname"],
   computed: {
-    food(): Food {
-      return this.$store.getters.getFoodByName(this.foodname);
-    },
+    // food(): Food {
+    //   return { ...this.$store.getters.getFoodByName(this.foodname) };
+    // },
+
     options(): any {
       return this.$store.state.config!.unitScales;
     },
   },
+  methods: {
+    onChange() {
+      this.hasChanged = true;
+      console.log("change");
+    },
+    saveChanges() {
+      console.log(this.food);
+    },
+  },
 });
 </script>
+
 <style lang="scss">
 .input-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 300px;
+  padding-bottom: 40px;
 }
 
 label.name {
@@ -107,9 +126,6 @@ div.unit {
     padding: 0 5px;
     color: rgba(0, 0, 0, 0.85);
   }
-  &:last-of-type {
-    margin-bottom: 40px;
-  }
 }
 input,
 select {
@@ -121,6 +137,24 @@ select {
   }
   &[type="number"] {
     width: 70px;
+  }
+}
+.buttons {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  button {
+    color: white;
+    border-radius: 8px;
+    padding: 10px 10px;
+    border: 0;
+    &.cancel {
+      background-color: rgb(218, 55, 55);
+      margin-right: 8px;
+    }
+    &.submit {
+      background-color: #4c804c;
+    }
   }
 }
 </style>
