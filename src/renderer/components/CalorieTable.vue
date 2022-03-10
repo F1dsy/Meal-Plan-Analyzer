@@ -1,5 +1,5 @@
 <template>
-  <div class="table" v-if="$store.state.hasLoaded">
+  <div class="table" v-if="store.hasLoaded">
     <table>
       <tr>
         <th>Monday</th>
@@ -51,18 +51,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import getDaysSummary from "../helpers/GetDaysData";
+import { useStore } from "../store";
 
 export default defineComponent({
-  computed: {
-    summaryData: function () {
-      return getDaysSummary(this.$store.state.data);
-    },
-    config() {
-      return this.$store.state.config!;
-    },
+  setup() {
+    const store = useStore();
+    const summaryData = computed(() => {
+      return getDaysSummary(store.data);
+    });
+    const config = computed(() => {
+      return store.config!;
+    });
+    return { store, summaryData, config };
   },
+  // computed: {
+  //   summaryData: function () {
+  //     return getDaysSummary(this.store.data);
+  //   },
+  //   config() {
+  //     return this.store.config!;
+  //   },
+  // },
 });
 </script>
 

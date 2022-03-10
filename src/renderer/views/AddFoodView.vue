@@ -75,10 +75,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import Dialog from "../components/Dialog.vue";
+import { useStore } from "../store";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    let unitScale = ref(store.config!.unitScales[0]);
+    const options = computed(() => {
+      return store.config!.unitScales;
+    });
+    return { store, options, unitScale };
+  },
   components: { Dialog },
   data() {
     return {
@@ -89,15 +98,14 @@ export default defineComponent({
       carbs: null,
       fats: null,
       protein: null,
-      unitScale: this.$store.state.config!.unitScales[0],
       category: null,
     };
   },
-  computed: {
-    options() {
-      return this.$store.state.config!.unitScales;
-    },
-  },
+  // computed: {
+  //   options: () => {
+  //     return this.store.config?.unitScales;
+  //   },
+  // },
   methods: {
     createFood() {
       if (
@@ -114,7 +122,7 @@ export default defineComponent({
         this.missingField = true;
         return;
       } else {
-        this.$store.dispatch("addNewFood", {
+        this.store.addNewFood({
           name: this.name,
           calories: this.calories,
           carbs: this.carbs,
@@ -123,6 +131,7 @@ export default defineComponent({
           unitScale: this.unitScale,
           category: this.category,
         });
+
         this.$router.back();
       }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="view-container" v-if="$store.state.hasLoaded">
+  <div class="view-container" v-if="store.hasLoaded">
     <div class="view-header">
       <h1 class="title">Food List</h1>
       <router-link class="button" to="/foodlist/addNewFood">New</router-link>
@@ -71,6 +71,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "../store";
 
 enum SortBy {
   name,
@@ -83,6 +84,10 @@ enum SortBy {
 }
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   data() {
     return {
       ascending: true,
@@ -100,7 +105,7 @@ export default defineComponent({
       }
     },
     foodsSorted(ascending: boolean, sortBy: number) {
-      return [...this.$store.state.data.foods].sort((a, b) => {
+      return [...this.store.data.foods].sort((a, b) => {
         switch (sortBy) {
           case SortBy.calories:
             return ascending

@@ -1,4 +1,4 @@
-import { Store } from "vuex";
+// import { Store } from "vuex";
 import { Data, Config } from "./types";
 
 export interface State {
@@ -6,11 +6,11 @@ export interface State {
   data: Data;
   config: Config | null;
 }
-declare module "@vue/runtime-core" {
-  // declare your own store states
+// declare module "@vue/runtime-core" {
+//   // declare your own store states
 
-  // provide typings for `this.$store`
-  interface ComponentCustomProperties {
-    $store: Store<State>;
-  }
-}
+//   // provide typings for `this.$store`
+//   interface ComponentCustomProperties {
+//     $store: Store<State>;
+//   }
+// }

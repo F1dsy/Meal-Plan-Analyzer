@@ -50,8 +50,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import DialogVue from "../components/Dialog.vue";
+import { useStore } from "../store";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   components: {
     DialogVue,
   },
@@ -71,7 +76,7 @@ export default defineComponent({
 
   methods: {
     meals() {
-      const meals = this.$store.state.data.meals.map((e) => {
+      const meals = this.store.data.meals.map((e) => {
         return e.name;
       });
       return meals.filter((meal) => meal.includes(this.filterWord));

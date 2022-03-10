@@ -55,8 +55,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Dialog from "../components/Dialog.vue";
+import { useStore } from "../store";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   components: { Dialog },
   data() {
     return {
@@ -70,13 +75,14 @@ export default defineComponent({
   },
   methods: {
     createMeal() {
-      this.$store.dispatch("addNewMeal", {
-        name: this.name,
-        calories: this.calories,
-        carbs: this.carbs,
-        fats: this.fats,
-        protein: this.protein,
+      this.store.addNewMeal({
+        name: this.name!,
+        calories: this.calories!,
+        carbs: this.carbs!,
+        fats: this.fats!,
+        protein: this.protein!,
       });
+
       this.$router.back();
     },
   },

@@ -3,20 +3,12 @@
   <router-view></router-view>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
+<script setup lang="ts">
+// import { defineComponent } from "vue";
 import SideMenu from "./components/SideMenu.vue";
-
-export default defineComponent({
-  name: "app",
-  components: {
-    SideMenu,
-  },
-  created() {
-    this.$store.dispatch("init");
-  },
-});
+import { useStore } from "./store";
+const store = useStore();
+store.init();
 </script>
 
 <style lang="scss">

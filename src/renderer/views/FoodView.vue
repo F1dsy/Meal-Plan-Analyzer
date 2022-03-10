@@ -70,28 +70,33 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import DialogVue from "../components/Dialog.vue";
+import { useStore } from "../store";
 import { Food } from "../typings/types";
 
 export default defineComponent({
+  setup() {
+    const store = useStore();
+    return { store };
+  },
   components: {
     DialogVue,
   },
-
   data() {
     return {
       styles: "width: 500px;",
       hasChanged: false,
-      food: { ...this.$store.getters.getFoodByName(this.foodname) },
     };
   },
   props: ["foodname"],
   computed: {
-    // food(): Food {
-    //   return { ...this.$store.getters.getFoodByName(this.foodname) };
-    // },
+    food(): any {
+      return { ...this.store.getFoodByName(this.foodname) };
+      // return { ...this.$store.getters.getFoodByName(this.foodname) };
+    },
 
     options(): any {
-      return this.$store.state.config!.unitScales;
+      return this.store.config?.unitScales;
+      // return this.$store.state.config!.unitScales;
     },
   },
   methods: {

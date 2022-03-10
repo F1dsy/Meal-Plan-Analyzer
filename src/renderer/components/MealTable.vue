@@ -1,5 +1,5 @@
 <template>
-  <div class="table" v-if="$store.state.hasLoaded">
+  <div class="table" v-if="store.hasLoaded">
     <table>
       <tr>
         <th>Monday</th>
@@ -24,15 +24,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import invertTable from "../helpers/InvertTable";
+import { useStore } from "../store";
 
 export default defineComponent({
-  computed: {
-    tableData() {
-      return invertTable(this.$store.state.data.table);
-    },
+  setup() {
+    const store = useStore();
+    const tableData = computed(() => {
+      return invertTable(store.data.table);
+    });
+    return { store, tableData };
   },
+  // computed: {
+  //   tableData() {
+  //     return invertTable(this.store.data.table);
+  //   },
+  // },
 });
 </script>
 
