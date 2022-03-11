@@ -1,10 +1,10 @@
 <template>
   <dialog-vue :styles="styles">
-    <h1 class="title">{{ foodname }}</h1>
+    <h1 class="title">{{ food.name }}</h1>
     <div class="input-container">
       <label for="name" class="name">Title:</label>
       <div class="unit">
-        <input type="text" name="name" id="name" v-model="foodname" />
+        <input type="text" name="name" id="name" v-model="food.name" />
       </div>
       <label for="calories" class="name">Calories:</label>
       <div class="unit">
@@ -68,15 +68,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import DialogVue from "../components/Dialog.vue";
 import { useStore } from "../store";
 import { Food } from "../typings/types";
 
 export default defineComponent({
-  setup() {
+  setup(props) {
     const store = useStore();
-    return { store };
+    const original = store.getFoodByName(props.foodname)!;
+    const food = reactive({ ...original });
+    return { store, food, original };
   },
   components: {
     DialogVue,
@@ -89,14 +91,8 @@ export default defineComponent({
   },
   props: ["foodname"],
   computed: {
-    food(): any {
-      return { ...this.store.getFoodByName(this.foodname) };
-      // return { ...this.$store.getters.getFoodByName(this.foodname) };
-    },
-
     options(): any {
       return this.store.config?.unitScales;
-      // return this.$store.state.config!.unitScales;
     },
   },
   methods: {
@@ -105,7 +101,8 @@ export default defineComponent({
       console.log("change");
     },
     saveChanges() {
-      console.log(this.food);
+      this.store.updateFood(this.food as Food, this.original);
+      this.$router.back();
     },
   },
 });
