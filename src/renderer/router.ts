@@ -7,6 +7,7 @@ import AddMealViewVue from "./views/AddMealView.vue";
 import AddFoodViewVue from "./views/AddFoodView.vue";
 import AddMealPlanViewVue from "./views/AddNewMealPlanView.vue";
 import FoodViewVue from "./views/FoodView.vue";
+import MealViewVue from "./views/MealView.vue";
 
 const routes = [
   {
@@ -34,7 +35,7 @@ const routes = [
       {
         name: "Show Meal",
         path: "show/:mealname",
-        component: AddMealViewVue,
+        component: MealViewVue,
         props: true,
       },
     ],

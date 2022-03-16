@@ -38,7 +38,11 @@
             </span>
           </div>
         </div>
-        <div class="list-item" v-for="item in mealsSorted(ascending, sortBy)">
+        <div
+          class="list-item"
+          v-for="item in mealsSorted(ascending, sortBy)"
+          @click="$router.push(`/meallist/show/${item.name}`)"
+        >
           <h6>{{ item.name }}</h6>
           <p>{{ item.calories }}</p>
           <p>{{ item.carbs }}</p>

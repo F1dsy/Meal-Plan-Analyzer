@@ -1,7 +1,5 @@
 <template>
-  <Dialog :styles="styles">
-    <h1 class="title">Add New Meal</h1>
-
+  <side-view-container title="Add New Meal" backroute="/meallist">
     <div class="input-container">
       <label for="name" class="name">Title:</label>
       <label for="name" class="unit">
@@ -49,12 +47,12 @@
         <input type="text" name="" id="category" class="no-border" />
       </label>
     </div>
-  </Dialog>
+  </side-view-container>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Dialog from "../components/Dialog.vue";
+import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
 
 export default defineComponent({
@@ -62,7 +60,7 @@ export default defineComponent({
     const store = useStore();
     return { store };
   },
-  components: { Dialog },
+  components: { SideViewContainer },
   data() {
     return {
       styles: `width: 500px;`,

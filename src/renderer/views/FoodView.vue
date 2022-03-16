@@ -1,6 +1,5 @@
 <template>
-  <dialog-vue :styles="styles">
-    <h1 class="title">{{ food.name }}</h1>
+  <side-view-container :title="food.name" backroute="/foodlist">
     <div class="input-container">
       <label for="name" class="name">Title:</label>
       <div class="unit">
@@ -59,17 +58,17 @@
       <div class="unit">
         <input type="text" name="" id="category" v-model="food.category" />
       </div>
-      <div v-if="hasChanged" class="buttons">
-        <button @click="$router.back()" class="cancel">Cancel</button>
-        <button class="submit" @click="saveChanges">Save</button>
-      </div>
     </div>
-  </dialog-vue>
+    <div v-if="hasChanged" class="buttons">
+      <button @click="$router.push('/foodlist')" class="cancel">Cancel</button>
+      <button class="submit" @click="saveChanges">Save</button>
+    </div>
+  </side-view-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import DialogVue from "../components/Dialog.vue";
+import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
 import { Food } from "../typings/types";
 
@@ -81,7 +80,7 @@ export default defineComponent({
     return { store, food, original };
   },
   components: {
-    DialogVue,
+    SideViewContainer,
   },
   data() {
     return {
@@ -108,12 +107,12 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .input-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 300px;
+
   padding-bottom: 40px;
 }
 
@@ -144,7 +143,6 @@ select {
 .buttons {
   position: absolute;
   right: 15px;
-  bottom: 15px;
   button {
     color: white;
     border-radius: 8px;

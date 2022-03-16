@@ -1,6 +1,5 @@
 <template>
-  <Dialog :styles="styles">
-    <h1 class="title">Add New Food</h1>
+  <side-view-container title="Add New Food" backroute="/foodlist">
     <div class="input-container">
       <label for="name" class="name">Title:</label>
       <label for="name" class="unit">
@@ -67,16 +66,16 @@
       </label>
     </div>
     <div class="buttons">
-      <button @click="$router.back()" class="cancel">Cancel</button>
+      <button @click="$router.push('/foodlist')" class="cancel">Cancel</button>
       <button @click="createFood()" class="submit">Create</button>
     </div>
     <span v-if="missingField">There is a field missing.</span>
-  </Dialog>
+  </side-view-container>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue";
-import Dialog from "../components/Dialog.vue";
+import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
 
 export default defineComponent({
@@ -88,7 +87,7 @@ export default defineComponent({
     });
     return { store, options, unitScale };
   },
-  components: { Dialog },
+  components: { SideViewContainer },
   data() {
     return {
       styles: `width: 900px;`,
@@ -139,11 +138,22 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.view {
+  padding: 16px;
+  position: relative;
+  flex: 0 0 300px;
+}
+span.close {
+  font-size: 2em;
+  position: absolute;
+  right: 14px;
+  top: 10px;
+}
 .input-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 300px;
+
   padding-bottom: 40px;
   label.name {
     color: rgba(0, 0, 0, 0.75);
@@ -173,7 +183,7 @@ export default defineComponent({
 .buttons {
   position: absolute;
   right: 15px;
-  bottom: 15px;
+
   button {
     color: white;
     border-radius: 8px;
