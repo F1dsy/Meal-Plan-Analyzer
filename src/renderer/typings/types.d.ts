@@ -18,6 +18,16 @@ export interface Meal {
   carbs: number;
   fats: number;
   protein: number;
+  ingredients: Ingredient[];
+  caloriedensity?: number;
+  preptime?: string;
+  notes?: string;
+  category?: string;
+}
+
+export interface Ingredient {
+  food: Food;
+  quantity: number;
 }
 
 export interface Food {

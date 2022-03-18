@@ -40,9 +40,9 @@ export const useStore = defineStore("main", {
       ipcRenderer.send("addNewFood", food);
       this.data.foods.push(food);
     },
-    removeFood(food: Food) {
-      this.data.foods.splice(this.data.meals.indexOf(food), 1);
-    },
+    // removeFood(food: Food) {
+    //   this.data.foods.splice(this.data.meals.indexOf(food), 1);
+    // },
     updateFood(updated: Food, old: Food) {
       this.data.foods[this.data.foods.indexOf(old)] = updated;
     },
