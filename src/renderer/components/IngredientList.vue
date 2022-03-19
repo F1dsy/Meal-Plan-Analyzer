@@ -92,20 +92,14 @@ export default defineComponent({
       this.selectedIngredientName = food.name;
     },
     addNewIngredient() {
-      const food = this.store.data.foods.find(
-        (food) => food.name === this.selectedIngredientName
-      );
-      if (food) {
-        const ingredient = {
-          food: food.name,
-          quantity: this.selectedIngredientQuantity,
-        };
-        this.addIngredient(ingredient);
-        this.selectedIngredientName = "";
-        this.selectedIngredientQuantity = 1;
-      }
+      const ingredient = {
+        food: this.selectedIngredientName,
+        quantity: this.selectedIngredientQuantity,
+      };
+      this.addIngredient(ingredient);
+      this.selectedIngredientName = "";
+      this.selectedIngredientQuantity = 1;
     },
-
     clickHandler(e: MouseEvent) {
       this.isSelectingIngredient = (
         this.$refs.ingredientInput as HTMLDivElement

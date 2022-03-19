@@ -44,6 +44,7 @@ export interface Food {
   unit: string;
   scale: number;
   category: string;
+  isCompound: boolean;
   ingredients?: Ingredient[];
 }
 

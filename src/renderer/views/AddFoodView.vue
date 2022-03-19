@@ -85,11 +85,6 @@ import { useStore } from "../store";
 import { Food, Ingredient } from "../typings/types";
 import IngredientList from "../components/IngredientList.vue";
 
-interface CreateFood extends Food {
-  missingField: boolean;
-  isCompound: boolean;
-}
-
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -100,9 +95,8 @@ export default defineComponent({
     return { store, options, unitScale };
   },
   components: { SideViewContainer, IngredientList },
-  data(): CreateFood {
+  data(): Food {
     return {
-      missingField: false,
       name: "",
       calories: 0,
       carbs: 0,
@@ -122,16 +116,16 @@ export default defineComponent({
         : (this.ingredients = undefined);
     },
     calories(val: number) {
-      this.calories = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.calories = parseFloat(val.toFixed(1));
     },
     carbs(val: number) {
-      this.carbs = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.carbs = parseFloat(val.toFixed(1));
     },
     fats(val: number) {
-      this.fats = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.fats = parseFloat(val.toFixed(1));
     },
     protein(val: number) {
-      this.protein = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.protein = parseFloat(val.toFixed(1));
     },
   },
   methods: {
@@ -154,6 +148,12 @@ export default defineComponent({
       this.protein -= food.protein;
     },
     createFood() {
+      if (!this.calories) this.calories = 0;
+      if (!this.carbs) this.carbs = 0;
+      if (!this.fats) this.fats = 0;
+      if (!this.protein) this.protein = 0;
+      if (!this.name) return;
+      if (this.isCompound && !this.ingredients?.length) return;
       const rawFood = toRaw(this.$data);
       this.store.addNewFood(rawFood);
       this.$router.replace("/foodlist");

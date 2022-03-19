@@ -123,16 +123,16 @@ export default defineComponent({
   },
   watch: {
     calories(val: number) {
-      this.calories = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.calories = parseFloat(val.toFixed(1));
     },
     carbs(val: number) {
-      this.carbs = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.carbs = parseFloat(val.toFixed(1));
     },
     fats(val: number) {
-      this.fats = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.fats = parseFloat(val.toFixed(1));
     },
     protein(val: number) {
-      this.protein = parseFloat(val.toFixed(1));
+      if (typeof val === "number") this.protein = parseFloat(val.toFixed(1));
     },
   },
   methods: {
@@ -146,15 +146,20 @@ export default defineComponent({
       this.protein += food.protein * ingredient.quantity;
     },
     removeIngredient(ingredient: Ingredient) {
+      this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
       const food = this.store.getFoodByName(ingredient.food);
       if (!food) return;
-      this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
       this.calories -= food.calories;
       this.carbs -= food.carbs;
       this.fats -= food.fats;
       this.protein -= food.protein;
     },
     createMeal() {
+      if (!this.calories) this.calories = 0;
+      if (!this.carbs) this.carbs = 0;
+      if (!this.fats) this.fats = 0;
+      if (!this.protein) this.protein = 0;
+      if (!(this.name && this.ingredients.length)) return;
       const rawFood = toRaw(this.$data);
       this.store.addNewMeal(rawFood);
       this.$router.replace("/meallist");
