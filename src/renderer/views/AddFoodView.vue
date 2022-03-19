@@ -61,20 +61,29 @@
         <label for="compound">Compound: </label>
         <input type="checkbox" name="" id="compound" v-model="isCompound" />
       </div>
+      <ingredient-list
+        v-if="isCompound"
+        :ingredients="ingredients"
+        :add-ingredient="addNewIngredient"
+        :remove-ingredient="removeIngredient"
+      ></ingredient-list>
     </div>
-    <!-- <div class="buttons">
-      <button @click="$router.push('/foodlist')" class="cancel">Cancel</button>
-      <button @click="createFood()" class="submit">Create</button>
+    <div class="buttons">
+      <button @click="$router.replace('/foodlist')" class="cancel">
+        Cancel
+      </button>
+      <button @click="createFood" class="submit">Create</button>
     </div>
-    <span v-if="missingField">There is a field missing.</span> -->
+    <!-- <span v-if="missingField">There is a field missing.</span> -->
   </side-view-container>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, toRaw } from "vue";
 import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
-import { Food } from "../typings/types";
+import { Food, Ingredient } from "../typings/types";
+import IngredientList from "../components/IngredientList.vue";
 
 interface CreateFood extends Food {
   missingField: boolean;
@@ -90,7 +99,7 @@ export default defineComponent({
     });
     return { store, options, unitScale };
   },
-  components: { SideViewContainer },
+  components: { SideViewContainer, IngredientList },
   data(): CreateFood {
     return {
       missingField: false,
@@ -106,69 +115,60 @@ export default defineComponent({
       ingredients: undefined,
     };
   },
-  // computed: {
-  //   options: () => {
-  //     return this.store.config?.unitScales;
-  //   },
-  // },
+  watch: {
+    isCompound() {
+      this.isCompound
+        ? (this.ingredients = [])
+        : (this.ingredients = undefined);
+    },
+    calories(val: number) {
+      this.calories = parseFloat(val.toFixed(1));
+    },
+    carbs(val: number) {
+      this.carbs = parseFloat(val.toFixed(1));
+    },
+    fats(val: number) {
+      this.fats = parseFloat(val.toFixed(1));
+    },
+    protein(val: number) {
+      this.protein = parseFloat(val.toFixed(1));
+    },
+  },
   methods: {
+    addNewIngredient(ingredient: Ingredient) {
+      this.ingredients!.push(ingredient);
+      const food = this.store.getFoodByName(ingredient.food);
+      if (!food) return;
+      this.calories += food.calories * ingredient.quantity;
+      this.carbs += food.carbs * ingredient.quantity;
+      this.fats += food.fats * ingredient.quantity;
+      this.protein += food.protein * ingredient.quantity;
+    },
+    removeIngredient(ingredient: Ingredient) {
+      this.ingredients!.splice(this.ingredients!.indexOf(ingredient), 1);
+      const food = this.store.getFoodByName(ingredient.food);
+      if (!food) return;
+      this.calories -= food.calories;
+      this.carbs -= food.carbs;
+      this.fats -= food.fats;
+      this.protein -= food.protein;
+    },
     createFood() {
-      if (
-        !(
-          this.name &&
-          this.calories &&
-          this.carbs &&
-          this.fats &&
-          this.protein &&
-          this.unitScale &&
-          this.category
-        )
-      ) {
-        this.missingField = true;
-        return;
-      } else {
-        // this.store.addNewFood({
-        //   name: this.name,
-        //   calories: this.calories,
-        //   carbs: this.carbs,
-        //   fats: this.fats,
-        //   protein: this.protein,
-        //   unit: this.unitScale,
-        //   category: this.category,
-        // });
-
-        this.$router.back();
-      }
+      const rawFood = toRaw(this.$data);
+      this.store.addNewFood(rawFood);
+      this.$router.replace("/foodlist");
     },
   },
 });
 </script>
 <style lang="scss" scoped>
-@import "../styles/add-screen-styles.scss";
+// @import "../styles/add-screen-styles.scss";
 .compound-box {
   display: flex;
   align-items: center;
   label {
     margin: 0;
     margin-right: 5px;
-  }
-}
-.buttons {
-  position: absolute;
-  right: 15px;
-
-  button {
-    color: white;
-    border-radius: 8px;
-    padding: 10px 10px;
-    border: 0;
-    &.cancel {
-      background-color: rgb(218, 55, 55);
-      margin-right: 8px;
-    }
-    &.submit {
-      background-color: #4c804c;
-    }
   }
 }
 </style>

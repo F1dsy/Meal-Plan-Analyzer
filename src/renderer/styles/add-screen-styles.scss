@@ -34,37 +34,34 @@ select {
   }
 }
 
-button.addIngredient {
-  color: white;
-  border-radius: 6px;
-  padding: 0;
-  background-color: #4c804c;
-  margin-left: 5px;
-  &:disabled {
-    opacity: 0.4;
-  }
-}
-
-.datalist {
-  position: absolute;
-  border-radius: 10px;
-  top: 35px;
-  padding: 5px;
-  background-color: white;
-  z-index: 1;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.24);
-  p {
-    &:hover {
-      background-color: rgba(80, 80, 80, 0.1);
-    }
-    padding: 3px 20px;
-    border-radius: 4px;
-  }
-}
-
 button {
   border: none;
   span {
     vertical-align: middle;
   }
+}
+
+.buttons {
+  position: absolute;
+  right: 15px;
+  margin-top: 15px;
+
+  button {
+    color: white;
+    border-radius: 8px;
+    padding: 10px 10px;
+    border: 0;
+    &.cancel {
+      background-color: rgb(218, 55, 55);
+      margin-right: 8px;
+    }
+    &.submit {
+      background-color: #4c804c;
+    }
+  }
+}
+
+textarea {
+  max-width: 260px;
+  height: fit-content;
 }

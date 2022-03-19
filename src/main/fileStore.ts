@@ -47,13 +47,11 @@ export default class Store {
     const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
     return data;
   }
-  writeMealData(data: Meal) {
-    this.data.meals.push(data);
+  writeMealData() {
     const path = this.getPath("meals.json");
     fs.writeFileSync(path, JSON.stringify(this.data.meals));
   }
-  writeFoodData(data: Food) {
-    this.data.foods.push(data);
+  writeFoodData() {
     const path = this.getPath("foods.json");
     fs.writeFileSync(path, JSON.stringify(this.data.foods));
   }

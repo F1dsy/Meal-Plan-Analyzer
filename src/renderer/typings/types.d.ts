@@ -26,7 +26,7 @@ export interface Meal {
 }
 
 export interface Ingredient {
-  food: Food;
+  food: string;
   quantity: number;
 }
 

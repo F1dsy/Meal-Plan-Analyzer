@@ -1,4 +1,4 @@
-import { ipcRenderer } from "./electron";
+import { ipcRenderer } from "./ipcRenderer";
 import { defineStore } from "pinia";
 
 import { State } from "./typings/store";
@@ -30,6 +30,7 @@ export const useStore = defineStore("main", {
   },
   actions: {
     addNewMeal(meal: Meal) {
+      console.log(meal);
       ipcRenderer.send("addNewMeal", meal);
       this.data.meals.push(meal);
     },
@@ -37,6 +38,7 @@ export const useStore = defineStore("main", {
       this.data.meals.splice(this.data.meals.indexOf(meal), 1);
     },
     addNewFood(food: Food) {
+      console.log(food);
       ipcRenderer.send("addNewFood", food);
       this.data.foods.push(food);
     },
@@ -48,10 +50,10 @@ export const useStore = defineStore("main", {
     },
     async init() {
       Promise.all([
-        ipcRenderer.invoke("data").then((result) => {
+        ipcRenderer.invoke("data").then((result: any) => {
           this.data = result;
         }),
-        ipcRenderer.invoke("config").then((result) => {
+        ipcRenderer.invoke("config").then((result: any) => {
           this.config = result;
         }),
       ]).then(() => {

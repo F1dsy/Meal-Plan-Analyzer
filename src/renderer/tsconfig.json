@@ -11,9 +11,7 @@
       "esModuleInterop": true,
       "lib": ["esnext", "dom"],
       "baseUrl": ".",
-      "paths": {
-        "@components/*":["components/*"]
-      }
+     
     },
     "include": ["./**/*.ts", "./**/*.d.ts", "./**/*.tsx", "./**/*.vue"],
     
