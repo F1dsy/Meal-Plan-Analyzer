@@ -20,7 +20,7 @@ export interface Meal {
   protein: number;
   ingredients: Ingredient[];
   caloriedensity?: number;
-  preptime?: string;
+  preptime?: number;
   notes?: string;
   category?: string;
 }
@@ -30,14 +30,21 @@ export interface Ingredient {
   quantity: number;
 }
 
+/**
+ * If @param ingredients is not undefined the food is a compound of other foods
+ *
+ * @interface
+ */
 export interface Food {
   name: string;
   calories: number;
   carbs: number;
   fats: number;
   protein: number;
-  unitScale: string;
+  unit: string;
+  scale: number;
   category: string;
+  ingredients?: Ingredient[];
 }
 
 export interface TableItem {

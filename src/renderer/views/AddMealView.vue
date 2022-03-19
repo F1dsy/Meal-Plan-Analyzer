@@ -50,34 +50,79 @@
         <input type="text" name="" id="category" />
       </div>
       <label for="ingredients">Ingredients:</label>
-      <div class="ingredient-container">
-        <ul>
-          <li v-for="ingredient in ingredients" :key="ingredient.food.name">
-            <span class="quantity">{{ ingredient.quantity }}</span>
-            <span class="ingredientname">{{ ingredient.food.name }}</span>
-          </li>
-        </ul>
+      <ul class="ingredient-list">
+        <li v-for="ingredient in ingredients" :key="ingredient.food.name">
+          <span class="quantity">{{ ingredient.quantity }}</span>
+          <span class="ingredientname">{{ ingredient.food.name }}</span>
+          <button @click="removeIngredient(ingredient)">
+            <span class="material-icons-round">remove</span>
+          </button>
+        </li>
+      </ul>
+      <div
+        class="ingredient-input-container"
+        @keydown.enter="addNewIngredient()"
+      >
         <div class="unit">
           <input
             type="number"
             name=""
             id="quantity"
             v-model="selectedIngredientQuantity"
+            class="border"
           />
-          <input
-            type="text"
-            name=""
-            id="ingredients"
-            v-model="selectedIngredientName"
-            @keydown.enter="addNewIngredient()"
-          />
-          <button class="addIngredient">+</button>
+          <div class="ingredient-input" ref="ingredientInput">
+            <input
+              type="text"
+              name=""
+              id="ingredients"
+              v-model="selectedIngredientName"
+            />
+            <div class="datalist" v-if="isSelectingIngredient">
+              <p v-for="food in foods" @click="selectIngredient(food)">
+                {{ food.name }}
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="datalist">
-          <p v-for="food in foods()" @click="selectIngredient(food)">
-            {{ food.name }}
-          </p>
-        </div>
+        <button
+          class="addIngredient"
+          @click="addNewIngredient()"
+          :disabled="!selectedIngredientName"
+        >
+          <span class="material-icons-round">add</span>
+        </button>
+      </div>
+      <label for="preptime">Prep Time:</label>
+      <div class="unit">
+        <input
+          type="number"
+          name="preptime"
+          id="preptime"
+          v-model="preptime"
+          class="border"
+        /><span>min</span>
+      </div>
+      <label for="caloriedensity">Calorie Density:</label>
+      <div class="unit">
+        <input
+          type="number"
+          name="caloriedensity"
+          id="caloriedensity"
+          v-model="caloriedensity"
+          class="border"
+        /><span>kcal/100g</span>
+      </div>
+      <label for="notes">Method:</label>
+      <div class="unit">
+        <textarea
+          name="notes"
+          id="notes"
+          cols="30"
+          rows="10"
+          @input="logInput"
+          v-model="notes"
+        ></textarea>
       </div>
     </div>
   </side-view-container>
@@ -87,11 +132,12 @@
 import { defineComponent } from "vue";
 import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
-import { Meal, Food } from "../typings/types";
+import { Meal, Food, Ingredient } from "../typings/types";
 
 interface CreateMeal extends Meal {
   selectedIngredientName: string;
   selectedIngredientQuantity: number;
+  isSelectingIngredient: boolean;
 }
 
 export default defineComponent({
@@ -114,20 +160,27 @@ export default defineComponent({
       category: undefined,
       selectedIngredientName: "",
       selectedIngredientQuantity: 1.0,
+      isSelectingIngredient: false,
     };
   },
-  methods: {
-    foods() {
-      return this.store.data.foods;
+  computed: {
+    foods(): any {
+      const foods = this.store.data.foods;
+      return foods.filter((food) =>
+        food.name.includes(this.selectedIngredientName)
+      );
     },
+  },
+  methods: {
     selectIngredient(food: Food) {
+      this.isSelectingIngredient = false;
       this.selectedIngredientName = food.name;
     },
     createMeal() {
       this.$router.back();
     },
     addNewIngredient() {
-      const food = this.foods().find(
+      const food = this.store.data.foods.find(
         (food) => food.name === this.selectedIngredientName
       );
       if (food) {
@@ -136,100 +189,69 @@ export default defineComponent({
           quantity: this.selectedIngredientQuantity,
         };
         this.ingredients.push(ingredient);
-        this.setByIngredients(ingredient);
+        this.calories += ingredient.food.calories * ingredient.quantity;
+        this.carbs += ingredient.food.carbs * ingredient.quantity;
+        this.fats += ingredient.food.fats * ingredient.quantity;
+        this.protein += ingredient.food.protein * ingredient.quantity;
+        this.selectedIngredientName = "";
+        this.selectedIngredientQuantity = 1;
       }
     },
-    setByIngredients(ingredient: Ingredient) {
-      if (!this.calories) this.calories = 0;
-      if (!this.carbs) this.carbs = 0;
-      if (!this.fats) this.fats = 0;
-      if (!this.protein) this.protein = 0;
-      this.calories += ingredient.food.calories * ingredient.quantity;
-      this.carbs += ingredient.food.carbs * ingredient.quantity;
-      this.fats += ingredient.food.fats * ingredient.quantity;
-      this.protein += ingredient.food.protein * ingredient.quantity;
+    removeIngredient(ingredient: Ingredient) {
+      this.ingredients.splice(this.ingredients.indexOf(ingredient), 1);
+      this.calories -= ingredient.food.calories;
+      this.carbs -= ingredient.food.carbs;
+      this.fats -= ingredient.food.fats;
+      this.protein -= ingredient.food.protein;
     },
+    clickHandler(e: MouseEvent) {
+      this.isSelectingIngredient = (
+        this.$refs.ingredientInput as HTMLDivElement
+      ).contains(e.target as Node);
+    },
+    logInput() {
+      console.log(this.$data);
+    },
+  },
+  unmounted() {
+    window.removeEventListener("click", this.clickHandler);
+  },
+  mounted() {
+    window.addEventListener("click", this.clickHandler);
   },
 });
 </script>
+
 <style lang="scss" scoped>
-.input-container {
+@import "../styles/add-screen-styles.scss";
+
+.ingredient-input-container {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 300px;
+  align-items: center;
 }
-label {
-  color: rgba(0, 0, 0, 0.75);
-  margin-top: 10px;
-}
-
-div.unit {
-  border: 1px solid rgba(160, 160, 160, 0.267);
-  border-radius: 5px;
-  span {
-    padding: 0 5px;
-    color: rgba(0, 0, 0, 0.85);
-  }
-  &:last-of-type {
-    margin-bottom: 40px;
-  }
-}
-input,
-select {
-  border: none;
-  background-color: whitesmoke;
-  height: 30px;
-  &.border {
-    border-right: 1px solid rgba(160, 160, 160, 0.267);
-  }
-  &[type="number"] {
-    width: 70px;
-  }
-}
-
-.ingredient-container {
+.ingredient-input {
+  display: inline-block;
   position: relative;
-  padding-left: 10px;
-  input#quantity {
-    width: 60px;
-  }
-
-  div.unit,
-  ul {
-    border: none;
-
-    span.quantity {
-      margin-right: 7px;
-    }
-
-    li {
-      padding: 6px 0 0 0;
-      font-size: 1em;
-    }
-    input {
-      background-color: transparent;
-    }
-    button.addIngredient {
-      color: white;
-      border-radius: 6px;
-      height: 25px;
-      width: 25px;
-      border: 0;
-      background-color: #4c804c;
-    }
-  }
-}
-.datalist {
-  position: absolute;
-  border-radius: 10px;
-  padding: 10px 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.24);
 }
 
-// ul {
-//   padding-inline-start: 40px;
-// }
+li {
+  &:hover button {
+    opacity: 1;
+  }
+  padding: 6px 0 6px 0;
+  font-size: 1em;
+  button {
+    vertical-align: middle;
+    transition: opacity 0.3s;
+    opacity: 0;
+    border-radius: 10px;
+    padding: 0;
+  }
+}
+span.quantity {
+  margin-right: 7px;
+}
+
 .buttons {
   position: absolute;
   right: 15px;
@@ -238,7 +260,6 @@ select {
     color: white;
     border-radius: 8px;
     padding: 10px 10px;
-    border: 0;
     &.cancel {
       background-color: rgb(218, 55, 55);
       margin-right: 8px;

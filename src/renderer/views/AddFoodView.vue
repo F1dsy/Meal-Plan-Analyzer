@@ -1,75 +1,72 @@
 <template>
   <side-view-container title="Add New Food" backroute="/foodlist">
     <div class="input-container">
-      <label for="name" class="name">Title:</label>
-      <label for="name" class="unit">
-        <input
-          type="text"
-          name="name"
-          id="name"
-          v-model="name"
-          class="no-border"
-        />
-      </label>
-      <label for="calories" class="name">Calories:</label>
-      <label for="calories" class="unit">
+      <label for="name">Title:</label>
+      <div class="unit">
+        <input type="text" name="name" id="name" v-model="name" />
+      </div>
+      <label for="calories">Calories:</label>
+      <div class="unit">
         <input
           type="number"
           name="calories"
           id="calories"
           v-model="calories"
+          class="border"
         /><span><span>kcal</span></span>
-      </label>
-      <label for="carbs" class="name">Carbs:</label>
-      <label for="carbs" class="unit">
-        <input type="number" name="carbs" id="carbs" v-model="carbs" /><span
-          >g</span
-        >
-      </label>
-      <label for="fats" class="name">Fats:</label>
-      <label for="fats" class="unit">
-        <input type="number" name="fats" id="fats" v-model="fats" /><span
-          >g</span
-        >
-      </label>
-      <label for="protein" class="name">Protein:</label>
-      <label for="protein" class="unit">
+      </div>
+      <label for="carbs">Carbs:</label>
+      <div class="unit">
+        <input
+          type="number"
+          name="carbs"
+          id="carbs"
+          v-model="carbs"
+          class="border"
+        /><span>g</span>
+      </div>
+      <label for="fats">Fats:</label>
+      <div class="unit">
+        <input
+          type="number"
+          name="fats"
+          id="fats"
+          v-model="fats"
+          class="border"
+        /><span>g</span>
+      </div>
+      <label for="protein">Protein:</label>
+      <div class="unit">
         <input
           type="number"
           name="protein"
           id="protein"
           v-model="protein"
+          class="border"
         /><span>g</span>
-      </label>
-      <label for="unitScale" class="name">Unit Scale:</label>
-      <label for="unitScale" class="unit">
-        <select
-          name="unitScale"
-          id="unitScale"
-          v-model="unitScale"
-          class="no-border"
-        >
+      </div>
+      <label for="unitScale">Unit Scale:</label>
+      <div class="unit">
+        <select name="unitScale" id="unitScale">
           <option v-for="option in options" :value="option">
             {{ option }}
           </option>
         </select>
-      </label>
-      <label for="category" class="name">Category:</label>
-      <label for="category" class="unit">
-        <input
-          type="text"
-          name=""
-          id="category"
-          class="no-border"
-          v-model="category"
-        />
-      </label>
+      </div>
+      <label for="category">Category:</label>
+      <div class="unit">
+        <input type="text" name="" id="category" v-model="category" />
+      </div>
+      <div class="compound-box">
+        <label for="compound">Compound: </label>
+        <input type="checkbox" name="" id="compound" v-model="isCompound" />
+      </div>
     </div>
-    <div class="buttons">
+    <!-- <div class="buttons">
       <button @click="$router.push('/foodlist')" class="cancel">Cancel</button>
       <button @click="createFood()" class="submit">Create</button>
     </div>
-    <span v-if="missingField">There is a field missing.</span>
+    <span v-if="missingField">There is a field missing.</span> -->
   </side-view-container>
 </template>
 
@@ -77,6 +74,12 @@
 import { computed, defineComponent, ref } from "vue";
 import SideViewContainer from "../components/SideViewContainer.vue";
 import { useStore } from "../store";
+import { Food } from "../typings/types";
+
+interface CreateFood extends Food {
+  missingField: boolean;
+  isCompound: boolean;
+}
 
 export default defineComponent({
   setup() {
@@ -88,16 +91,19 @@ export default defineComponent({
     return { store, options, unitScale };
   },
   components: { SideViewContainer },
-  data() {
+  data(): CreateFood {
     return {
-      styles: `width: 900px;`,
       missingField: false,
-      name: null,
-      calories: null,
-      carbs: null,
-      fats: null,
-      protein: null,
-      category: null,
+      name: "",
+      calories: 0,
+      carbs: 0,
+      fats: 0,
+      protein: 0,
+      unit: "",
+      scale: 100,
+      category: "",
+      isCompound: false,
+      ingredients: undefined,
     };
   },
   // computed: {
@@ -121,15 +127,15 @@ export default defineComponent({
         this.missingField = true;
         return;
       } else {
-        this.store.addNewFood({
-          name: this.name,
-          calories: this.calories,
-          carbs: this.carbs,
-          fats: this.fats,
-          protein: this.protein,
-          unitScale: this.unitScale,
-          category: this.category,
-        });
+        // this.store.addNewFood({
+        //   name: this.name,
+        //   calories: this.calories,
+        //   carbs: this.carbs,
+        //   fats: this.fats,
+        //   protein: this.protein,
+        //   unit: this.unitScale,
+        //   category: this.category,
+        // });
 
         this.$router.back();
       }
@@ -138,46 +144,13 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.view {
-  padding: 16px;
-  position: relative;
-  flex: 0 0 300px;
-}
-span.close {
-  font-size: 2em;
-  position: absolute;
-  right: 14px;
-  top: 10px;
-}
-.input-container {
+@import "../styles/add-screen-styles.scss";
+.compound-box {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  padding-bottom: 40px;
-  label.name {
-    color: rgba(0, 0, 0, 0.75);
-    margin-top: 10px;
-  }
-  label.unit {
-    border: 1px solid rgba(160, 160, 160, 0.267);
-    border-radius: 5px;
-    span {
-      padding: 0 5px;
-      color: rgba(0, 0, 0, 0.85);
-    }
-  }
-  input,
-  select {
-    border: none;
-    background-color: whitesmoke;
-    height: 30px;
-    &:not(.no-border) {
-      border-right: 1px solid rgba(160, 160, 160, 0.267);
-    }
-    &[type="number"] {
-      width: 70px;
-    }
+  align-items: center;
+  label {
+    margin: 0;
+    margin-right: 5px;
   }
 }
 .buttons {
