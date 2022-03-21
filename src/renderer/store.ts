@@ -27,6 +27,9 @@ export const useStore = defineStore("main", {
     getFoodByName: (state) => (name: string) => {
       return state.data.foods.find((e) => e.name == name);
     },
+    getMealByName: (state) => (name: string) => {
+      return state.data.meals.find((e) => e.name == name);
+    },
   },
   actions: {
     addNewMeal(meal: Meal) {
@@ -47,6 +50,9 @@ export const useStore = defineStore("main", {
     // },
     updateFood(updated: Food, old: Food) {
       this.data.foods[this.data.foods.indexOf(old)] = updated;
+    },
+    updateMeal(updated: Meal, old: Meal) {
+      this.data.meals[this.data.meals.indexOf(old)] = updated;
     },
     async init() {
       Promise.all([

@@ -1,11 +1,11 @@
 <template>
   <side-view-container :title="meal.name" backroute="/meallist">
     <div class="input-container">
-      <label for="name" class="name">Title:</label>
+      <label for="name">Title:</label>
       <div class="unit">
         <input type="text" name="name" id="name" v-model="meal.name" />
       </div>
-      <label for="calories" class="name">Calories:</label>
+      <label for="calories">Calories:</label>
       <div class="unit">
         <input
           type="number"
@@ -13,9 +13,10 @@
           id="calories"
           v-model="meal.calories"
           class="border"
+          @change="onChange"
         /><span><span>kcal</span></span>
       </div>
-      <label for="carbs" class="name">Carbs:</label>
+      <label for="carbs">Carbs:</label>
       <div class="unit">
         <input
           type="number"
@@ -26,7 +27,7 @@
           @change="onChange"
         /><span>g</span>
       </div>
-      <label for="fats" class="name">Fats:</label>
+      <label for="fats">Fats:</label>
       <div class="unit">
         <input
           type="number"
@@ -34,9 +35,10 @@
           id="fats"
           v-model="meal.fats"
           class="border"
+          @change="onChange"
         /><span>g</span>
       </div>
-      <label for="protein" class="name">Protein:</label>
+      <label for="protein">Protein:</label>
       <div class="unit">
         <input
           type="number"
@@ -44,26 +46,55 @@
           id="protein"
           v-model="meal.protein"
           class="border"
+          @change="onChange"
         /><span>g</span>
       </div>
-      <label for="unitScale" class="name">Unit Scale:</label>
+      <label for="category">Category:</label>
       <div class="unit">
-        <select name="unitScale" id="unitScale" v-model="meal.unitScale">
-          <option v-for="option in options" :value="option">
-            {{ option }}
-          </option>
-        </select>
+        <input type="text" name="" id="category" @change="onChange" />
       </div>
-      <label for="category" class="name">Category:</label>
+      <ingredient-list
+        :ingredients="meal.ingredients"
+        :add-ingredient="addNewIngredient"
+        :remove-ingredient="removeIngredient"
+      ></ingredient-list>
+      <label for="preptime">Prep Time:</label>
       <div class="unit">
-        <input type="text" name="" id="category" v-model="meal.category" />
+        <input
+          type="number"
+          name="preptime"
+          id="preptime"
+          v-model="meal.preptime"
+          class="border"
+          @change="onChange"
+        /><span>min</span>
       </div>
-      <div v-if="hasChanged" class="buttons">
-        <button @click="$router.push('/meallist')" class="cancel">
-          Cancel
-        </button>
-        <button class="submit" @click="saveChanges">Save</button>
+      <label for="caloriedensity">Calorie Density:</label>
+      <div class="unit">
+        <input
+          type="number"
+          name="caloriedensity"
+          id="caloriedensity"
+          v-model="meal.caloriedensity"
+          class="border"
+          @change="onChange"
+        /><span>kcal/100g</span>
       </div>
+      <label for="notes">Method:</label>
+      <div class="unit">
+        <textarea
+          name="notes"
+          id="notes"
+          cols="30"
+          rows="10"
+          v-model="meal.notes"
+          @change="onChange"
+        ></textarea>
+      </div>
+    </div>
+    <div v-if="hasChanged" class="buttons">
+      <button @click="$router.push('/meallist')" class="cancel">Cancel</button>
+      <button class="submit" @click="saveChanges">Save</button>
     </div>
   </side-view-container>
 </template>
@@ -71,37 +102,62 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import SideViewContainer from "../components/SideViewContainer.vue";
+import IngredientList from "../components/IngredientList.vue";
 import { useStore } from "../store";
+import { Ingredient } from "typings/types";
 
 export default defineComponent({
   setup(props) {
     const store = useStore();
-    const original = store.getFoodByName(props.mealname)!;
-    const meal = reactive({ ...original });
+    const original = store.getMealByName(props.mealname)!;
+    const meal = reactive(JSON.parse(JSON.stringify(original)));
     return { store, meal, original };
   },
   components: {
     SideViewContainer,
+    IngredientList,
   },
   data() {
     return {
-      styles: "width: 500px;",
       hasChanged: false,
     };
   },
-  props: ["mealname"],
-  computed: {
-    options(): any {
-      return this.store.config?.unitScales;
+  props: {
+    mealname: {
+      type: String,
+      required: true,
     },
   },
   methods: {
+    addNewIngredient(ingredient: Ingredient) {
+      this.meal.ingredients.push(ingredient);
+      this.onChange();
+      const food = this.store.getFoodByName(ingredient.food);
+      if (!food) return;
+      this.meal.calories += food.calories * ingredient.quantity;
+      this.meal.carbs += food.carbs * ingredient.quantity;
+      this.meal.fats += food.fats * ingredient.quantity;
+      this.meal.protein += food.protein * ingredient.quantity;
+    },
+    removeIngredient(ingredient: Ingredient) {
+      this.meal.ingredients.splice(
+        this.meal.ingredients.indexOf(ingredient),
+        1
+      );
+      this.onChange();
+      const food = this.store.getFoodByName(ingredient.food);
+      if (!food) return;
+      this.meal.calories -= food.calories;
+      this.meal.carbs -= food.carbs;
+      this.meal.fats -= food.fats;
+      this.meal.protein -= food.protein;
+    },
     onChange() {
       this.hasChanged = true;
       console.log("change");
     },
     saveChanges() {
-      //   this.store.updateFood(this.meal as Meal, this.original);
+      this.store.updateMeal(this.meal, this.original);
       this.$router.back();
     },
   },
@@ -109,26 +165,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+@import "../styles/side-screen-styles.scss";
 
-  padding-bottom: 40px;
-}
-
-label.name {
-  color: rgba(0, 0, 0, 0.75);
-  margin-top: 10px;
-}
-div.unit {
-  border: 1px solid rgba(160, 160, 160, 0.267);
-  border-radius: 5px;
-  span {
-    padding: 0 5px;
-    color: rgba(0, 0, 0, 0.85);
-  }
-}
 input,
 select {
   border: none;

@@ -162,7 +162,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-// @import "../styles/add-screen-styles.scss";
+@import "../styles/side-screen-styles.scss";
 .compound-box {
   display: flex;
   align-items: center;

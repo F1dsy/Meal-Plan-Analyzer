@@ -115,9 +115,8 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-@import "../styles/add-screen-styles.scss";
-
+<style lang="scss" scoped>
+@import "../styles/side-screen-styles.scss";
 li {
   &:hover button {
     opacity: 1;
