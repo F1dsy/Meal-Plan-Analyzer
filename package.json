@@ -18,7 +18,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",
     "@vue/cli": "^5.0.4",
-    "chalk": "^5.0.1",
+    "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "electron": "^17.1.2",
     "electron-builder": "^22.14.5",
