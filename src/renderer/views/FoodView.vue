@@ -2,11 +2,11 @@
   <side-view-container :title="food.name" backroute="/foodlist">
     <div class="input-container">
       <label for="name" class="name">Title:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="name" id="name" v-model="food.name" />
       </div>
       <label for="calories" class="name">Calories:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="calories"
@@ -16,7 +16,7 @@
         /><span><span>kcal</span></span>
       </div>
       <label for="carbs" class="name">Carbs:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="carbs"
@@ -27,7 +27,7 @@
         /><span>g</span>
       </div>
       <label for="fats" class="name">Fats:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="fats"
@@ -37,7 +37,7 @@
         /><span>g</span>
       </div>
       <label for="protein" class="name">Protein:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="protein"
@@ -46,16 +46,16 @@
           class="border"
         /><span>g</span>
       </div>
-      <label for="unitScale" class="name">Unit Scale:</label>
-      <div class="unit">
-        <select name="unitScale" id="unitScale" v-model="food.unitScale">
-          <option v-for="option in options" :value="option">
-            {{ option }}
+      <label for="unit" class="name">Unit:</label>
+      <div class="input">
+        <select name="unit" id="unit" v-model="food.unit">
+          <option v-for="[key] in store.config!.units" :value="key">
+            {{ key }}
           </option>
         </select>
       </div>
       <label for="category" class="name">Category:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="" id="category" v-model="food.category" />
       </div>
     </div>
@@ -84,16 +84,10 @@ export default defineComponent({
   },
   data() {
     return {
-      styles: "width: 500px;",
       hasChanged: false,
     };
   },
   props: ["foodname"],
-  computed: {
-    options(): any {
-      return this.store.config?.unitScales;
-    },
-  },
   methods: {
     onChange() {
       this.hasChanged = true;
@@ -108,6 +102,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../styles/side-screen-styles.scss";
 .input-container {
   display: flex;
   flex-direction: column;
@@ -120,26 +115,7 @@ label.name {
   color: rgba(0, 0, 0, 0.75);
   margin-top: 10px;
 }
-div.unit {
-  border: 1px solid rgba(160, 160, 160, 0.267);
-  border-radius: 5px;
-  span {
-    padding: 0 5px;
-    color: rgba(0, 0, 0, 0.85);
-  }
-}
-input,
-select {
-  border: none;
-  background-color: whitesmoke;
-  height: 30px;
-  &:not(.no-border) {
-    border-right: 1px solid rgba(160, 160, 160, 0.267);
-  }
-  &[type="number"] {
-    width: 70px;
-  }
-}
+
 .buttons {
   position: absolute;
   right: 15px;

@@ -2,7 +2,7 @@ import { ipcRenderer } from "./ipcRenderer";
 import { defineStore } from "pinia";
 
 import { State } from "./typings/store";
-import { Food, Meal } from "./typings/types";
+import { Config, Data, Food, Meal } from "./typings/types";
 
 export const useStore = defineStore("main", {
   state: (): State => {
@@ -56,14 +56,15 @@ export const useStore = defineStore("main", {
     },
     async init() {
       Promise.all([
-        ipcRenderer.invoke("data").then((result: any) => {
+        ipcRenderer.invoke("data").then((result: Data) => {
           this.data = result;
         }),
-        ipcRenderer.invoke("config").then((result: any) => {
+        ipcRenderer.invoke("config").then((result: Config) => {
           this.config = result;
         }),
       ]).then(() => {
         this.hasLoaded = true;
+        console.log(this.config?.units);
       });
     },
   },

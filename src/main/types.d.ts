@@ -9,7 +9,7 @@ export interface Config {
   carbs: number;
   fats: number;
   protein: number;
-  UIDIndex: number;
+  units: Map<string, { name: string; weight: number }[]>;
 }
 
 export interface Meal {

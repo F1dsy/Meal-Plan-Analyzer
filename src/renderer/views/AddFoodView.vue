@@ -2,11 +2,11 @@
   <side-view-container title="Add New Food" backroute="/foodlist">
     <div class="input-container">
       <label for="name">Title:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="name" id="name" v-model="name" />
       </div>
       <label for="calories">Calories:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="calories"
@@ -16,7 +16,7 @@
         /><span><span>kcal</span></span>
       </div>
       <label for="carbs">Carbs:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="carbs"
@@ -26,7 +26,7 @@
         /><span>g</span>
       </div>
       <label for="fats">Fats:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="fats"
@@ -36,7 +36,7 @@
         /><span>g</span>
       </div>
       <label for="protein">Protein:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="protein"
@@ -45,16 +45,16 @@
           class="border"
         /><span>g</span>
       </div>
-      <label for="unitScale">Unit Scale:</label>
-      <div class="unit">
-        <select name="unitScale" id="unitScale">
-          <option v-for="option in options" :value="option">
-            {{ option }}
+      <label for="unit">Unit:</label>
+      <div class="input">
+        <select name="unit" id="unit" v-model="unit">
+          <option v-for="[key] in store.config!.units" :value="key">
+            {{ key }}
           </option>
         </select>
       </div>
       <label for="category">Category:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="" id="category" v-model="category" />
       </div>
       <div class="compound-box">
@@ -88,11 +88,11 @@ import IngredientList from "../components/IngredientList.vue";
 export default defineComponent({
   setup() {
     const store = useStore();
-    let unitScale = ref(store.config!.unitScales[0]);
-    const options = computed(() => {
-      return store.config!.unitScales;
-    });
-    return { store, options, unitScale };
+    // let unitScale = ref(store.config!.unitScales[0]);
+    // const options = computed(() => {
+    // return store.config!.unitScales;
+    // });
+    return { store };
   },
   components: { SideViewContainer, IngredientList },
   data(): Food {
@@ -103,7 +103,6 @@ export default defineComponent({
       fats: 0,
       protein: 0,
       unit: "",
-      scale: 100,
       category: "",
       isCompound: false,
       ingredients: undefined,

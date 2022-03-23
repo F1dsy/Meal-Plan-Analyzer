@@ -10,7 +10,7 @@
     </li>
   </ul>
   <div class="ingredient-input-container" @keydown.enter="addNewIngredient()">
-    <div class="unit">
+    <div class="input">
       <input
         type="number"
         name=""
@@ -18,6 +18,11 @@
         v-model="selectedIngredientQuantity"
         class="border"
       />
+      <select name="" id="" v-model="selectedIngredientUnit">
+        <option :value="unit" v-for="unit in units" :key="unit.name">
+          {{ unit.name }}
+        </option>
+      </select>
       <div class="ingredient-input" ref="ingredientInput">
         <input
           type="text"
@@ -50,6 +55,8 @@ import { Food, Ingredient } from "../typings/types";
 interface Data {
   selectedIngredientName: string;
   selectedIngredientQuantity: number;
+  selectedIngredientUnit: { name: string; weight: number };
+  selectedIngredientUnitKey: string;
   isSelectingIngredient: boolean;
 }
 
@@ -60,6 +67,8 @@ export default defineComponent({
   },
   data(): Data {
     return {
+      selectedIngredientUnit: { name: "", weight: 1 },
+      selectedIngredientUnitKey: "",
       selectedIngredientName: "",
       selectedIngredientQuantity: 1,
       isSelectingIngredient: false,
@@ -85,20 +94,32 @@ export default defineComponent({
         food.name.includes(this.selectedIngredientName)
       );
     },
+    units(): { name: string; weight: number }[] {
+      if (this.selectedIngredientUnitKey === "") {
+        return Array.from(this.store.config!.units.values()).reduce(
+          (pre, nex) => pre.concat(nex)
+        );
+      }
+      return this.store.config!.units.get(this.selectedIngredientUnitKey)!;
+    },
   },
   methods: {
     selectIngredient(food: Food) {
       this.isSelectingIngredient = false;
       this.selectedIngredientName = food.name;
+      this.selectedIngredientUnitKey = food.unit;
     },
     addNewIngredient() {
       const ingredient = {
         food: this.selectedIngredientName,
         quantity: this.selectedIngredientQuantity,
+        unit: this.selectedIngredientUnit,
       };
       this.addIngredient(ingredient);
       this.selectedIngredientName = "";
       this.selectedIngredientQuantity = 1;
+      this.selectedIngredientUnitKey = "";
+      // this.selectedIngredientUnit = "";
     },
     clickHandler(e: MouseEvent) {
       this.isSelectingIngredient = (

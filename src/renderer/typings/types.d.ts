@@ -9,7 +9,7 @@ export interface Config {
   carbs: number;
   fats: number;
   protein: number;
-  unitScales: Array<string>;
+  units: Map<string, { name: string; weight: number }[]>;
 }
 
 export interface Meal {
@@ -28,6 +28,7 @@ export interface Meal {
 export interface Ingredient {
   food: string;
   quantity: number;
+  unit: string;
 }
 
 /**
@@ -42,7 +43,6 @@ export interface Food {
   fats: number;
   protein: number;
   unit: string;
-  scale: number;
   category: string;
   isCompound: boolean;
   ingredients?: Ingredient[];

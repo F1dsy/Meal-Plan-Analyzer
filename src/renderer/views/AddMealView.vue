@@ -2,11 +2,11 @@
   <side-view-container title="Add New Meal" backroute="/meallist">
     <div class="input-container">
       <label for="name">Title:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="name" id="name" v-model="name" />
       </div>
       <label for="calories">Calories:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="calories"
@@ -16,7 +16,7 @@
         /><span><span>kcal</span></span>
       </div>
       <label for="carbs">Carbs:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="carbs"
@@ -26,7 +26,7 @@
         /><span>g</span>
       </div>
       <label for="fats">Fats:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="fats"
@@ -36,7 +36,7 @@
         /><span>g</span>
       </div>
       <label for="protein">Protein:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="protein"
@@ -46,7 +46,7 @@
         /><span>g</span>
       </div>
       <label for="category">Category:</label>
-      <div class="unit">
+      <div class="input">
         <input type="text" name="" id="category" />
       </div>
       <ingredient-list
@@ -55,7 +55,7 @@
         :remove-ingredient="removeIngredient"
       ></ingredient-list>
       <label for="preptime">Prep Time:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="preptime"
@@ -65,7 +65,7 @@
         /><span>min</span>
       </div>
       <label for="caloriedensity">Calorie Density:</label>
-      <div class="unit">
+      <div class="input">
         <input
           type="number"
           name="caloriedensity"
@@ -75,7 +75,7 @@
         /><span>kcal/100g</span>
       </div>
       <label for="notes">Method:</label>
-      <div class="unit">
+      <div class="input">
         <textarea
           name="notes"
           id="notes"

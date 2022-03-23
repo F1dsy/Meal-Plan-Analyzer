@@ -44,7 +44,10 @@ export default class Store {
 
   readConfig(): Config {
     const path = this.getPath("config.json");
-    const data = JSON.parse(fs.readFileSync(path, { encoding: "utf8" }));
+    const data = JSON.parse(
+      fs.readFileSync(path, { encoding: "utf8" })
+    ) as Config;
+    data.units = new Map(Object.entries(data.units));
     return data;
   }
   writeMealData() {
@@ -57,6 +60,8 @@ export default class Store {
   }
   writeConfig() {
     const path = this.getPath("config.json");
-    fs.writeFileSync(path, JSON.stringify(this.config));
+    let config = this.config as any;
+    (config.units = Object.fromEntries(config.units)),
+      fs.writeFileSync(path, JSON.stringify(config));
   }
 }
