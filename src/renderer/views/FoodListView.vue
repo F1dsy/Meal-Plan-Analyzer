@@ -38,7 +38,7 @@
             </span>
           </div>
           <div class="header-item" @click="selectSort(5)">
-            <h6>Unit Scale</h6>
+            <h6>Unit</h6>
             <span class="material-icons-round" v-if="sortBy === 5"
               >{{ ascending ? "arrow_drop_up" : "arrow_drop_down" }}
             </span>
@@ -60,7 +60,7 @@
           <p>{{ item.carbs }}</p>
           <p>{{ item.fats }}</p>
           <p>{{ item.protein }}</p>
-          <p>{{ item.unitScale }}</p>
+          <p>{{ item.unit }}</p>
           <p>{{ item.category }}</p>
         </div>
       </div>

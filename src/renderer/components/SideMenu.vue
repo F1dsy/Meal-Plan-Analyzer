@@ -11,6 +11,9 @@
       <router-link class="router-link" to="/foodlist"
         ><h3>Food List</h3></router-link
       >
+      <router-link to="/settings" class="settings"
+        ><span class="material-icons-round">settings</span></router-link
+      >
     </div>
   </div>
 </template>
@@ -63,6 +66,18 @@ export default defineComponent({});
         padding: 12px 0;
       }
     }
+  }
+  .settings {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    color: rgb(24, 24, 24);
+    border-radius: 7px;
+    background-color: rgb(214, 214, 214);
+    text-align: center;
+    padding-top: 8px;
   }
 }
 </style>

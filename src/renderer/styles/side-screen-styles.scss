@@ -29,9 +29,6 @@ select {
   &[type="number"] {
     width: 70px;
   }
-  &#quantity {
-    width: 50px;
-  }
 }
 
 button {
@@ -64,4 +61,8 @@ button {
 textarea {
   max-width: 260px;
   height: fit-content;
+}
+
+.red {
+  color: red;
 }

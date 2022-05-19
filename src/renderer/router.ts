@@ -8,6 +8,7 @@ import AddFoodViewVue from "./views/AddFoodView.vue";
 import AddMealPlanViewVue from "./views/AddNewMealPlanView.vue";
 import FoodViewVue from "./views/FoodView.vue";
 import MealViewVue from "./views/MealView.vue";
+import SettingsViewVue from "./views/SettingsView.vue";
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
         props: true,
       },
     ],
+  },
+  {
+    name: "Settings",
+    path: "/settings",
+    component: SettingsViewVue,
   },
   { path: "/", redirect: "/tables" },
 ];

@@ -48,12 +48,12 @@ export interface Food {
   ingredients?: Ingredient[];
 }
 
-export interface TableItem {
-  content: string;
-  rowSpan: number;
-  vAlign: string;
-}
+// export interface TableItem {
+//   content: string;
+//   rowSpan: number;
+//   vAlign: string;
+// }
 
-export type Table = Array<TableDay>;
+// export type Table = Array<TableDay>;
 
-export type TableDay = Array<string | TableItem>;
+// export type TableDay = Array<string | TableItem>;

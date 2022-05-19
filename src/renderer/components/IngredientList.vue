@@ -2,25 +2,21 @@
   <label for="ingredients">Ingredients:</label>
   <ul class="ingredient-list">
     <li v-for="ingredient in ingredients" :key="ingredient.food">
-      <span class="quantity">{{ ingredient.quantity }}</span>
+      <span class="quantity"
+        >{{ ingredient.quantity }} {{ ingredient.unit }}&nbsp;</span
+      >
       <span class="ingredientname">{{ ingredient.food }}</span>
       <button @click="removeIngredient(ingredient)">
         <span class="material-icons-round">remove</span>
       </button>
     </li>
   </ul>
-  <div class="ingredient-input-container" @keydown.enter="addNewIngredient()">
+  <div class="ingredient-input-container">
     <div class="input">
-      <input
-        type="number"
-        name=""
-        id="quantity"
-        v-model="selectedIngredientQuantity"
-        class="border"
-      />
-      <select name="" id="" v-model="selectedIngredientUnit">
-        <option :value="unit" v-for="unit in units" :key="unit.name">
-          {{ unit.name }}
+      <input type="text" id="quantity" v-model="selectedIngredientQuantity" />
+      <select name="unit" id="unit" v-model="selectedIngredientUnit">
+        <option v-for="val in units" :value="val.name">
+          {{ val.name }}
         </option>
       </select>
       <div class="ingredient-input" ref="ingredientInput">
@@ -54,23 +50,25 @@ import { Food, Ingredient } from "../typings/types";
 
 interface Data {
   selectedIngredientName: string;
-  selectedIngredientQuantity: number;
-  selectedIngredientUnit: { name: string; weight: number };
-  selectedIngredientUnitKey: string;
+  selectedIngredientUnit: string;
+  selectedIngredientQuantity: string;
   isSelectingIngredient: boolean;
 }
 
 export default defineComponent({
   setup() {
     const store = useStore();
+    for (const val of store.config!.units.entries()) {
+      console.log(val);
+    }
     return { store };
   },
   data(): Data {
     return {
-      selectedIngredientUnit: { name: "", weight: 1 },
-      selectedIngredientUnitKey: "",
+      selectedIngredientUnit: "",
+      // selectedIngredientUnitType: "",
       selectedIngredientName: "",
-      selectedIngredientQuantity: 1,
+      selectedIngredientQuantity: "1",
       isSelectingIngredient: false,
     };
   },
@@ -94,20 +92,18 @@ export default defineComponent({
         food.name.includes(this.selectedIngredientName)
       );
     },
+
     units(): { name: string; weight: number }[] {
-      if (this.selectedIngredientUnitKey === "") {
-        return Array.from(this.store.config!.units.values()).reduce(
-          (pre, nex) => pre.concat(nex)
-        );
-      }
-      return this.store.config!.units.get(this.selectedIngredientUnitKey)!;
+      return Array.from(this.store.config!.units.values()).reduce((pre, nex) =>
+        pre.concat(nex)
+      );
     },
   },
   methods: {
     selectIngredient(food: Food) {
       this.isSelectingIngredient = false;
       this.selectedIngredientName = food.name;
-      this.selectedIngredientUnitKey = food.unit;
+      // this.selectedIngredientUnitType = food.unit;
     },
     addNewIngredient() {
       const ingredient = {
@@ -117,8 +113,8 @@ export default defineComponent({
       };
       this.addIngredient(ingredient);
       this.selectedIngredientName = "";
-      this.selectedIngredientQuantity = 1;
-      this.selectedIngredientUnitKey = "";
+      this.selectedIngredientQuantity = "";
+      // this.selectedIngredientUnitKey = "";
       // this.selectedIngredientUnit = "";
     },
     clickHandler(e: MouseEvent) {
@@ -152,16 +148,32 @@ li {
     padding: 0;
   }
 }
-span.quantity {
-  margin-right: 7px;
-}
+
 .ingredient-input-container {
   display: flex;
   align-items: center;
+
+  div.input {
+    display: flex;
+    align-items: center;
+    background-color: whitesmoke;
+    max-width: 200px;
+  }
+  input,
+  select {
+    width: 100%;
+  }
+}
+input#quantity {
+  flex: 1;
+}
+select#unit {
+  flex: 2;
 }
 .ingredient-input {
   display: inline-block;
   position: relative;
+  flex: 4;
 }
 
 button.addIngredient {
@@ -174,7 +186,6 @@ button.addIngredient {
     opacity: 0.4;
   }
 }
-
 .datalist {
   position: absolute;
   border-radius: 10px;
